@@ -1,0 +1,19 @@
+/node_modules
+/public/hot
+/public/storage
+/public/js
+/public/mix-manifest.json
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+Homestead.json
+Homestead.yaml
+.env
+package-lock.json
+composer.lock
+
+### macOS ###
+*.DS_Store
+.AppleDouble
+.LSOverride
