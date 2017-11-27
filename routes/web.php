@@ -12,5 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+   return redirect('/admin');
 });
+Route::group(['prefix' => '/admin', 'middleware' => 'auth:web'], function () {
+    Route::get('/', 'AdminController@getIndex');
+});
+Route::get('/login', 'Auth\LoginController@getLogin')->name('login');
+Route::post('/login', 'Auth\LoginController@login');
