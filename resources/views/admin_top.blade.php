@@ -1,8 +1,6 @@
-<!doctype html>
-<html>
-    <head>
-    </head>
-    <body>
-        hello admin
-    </body>
-</html>
+@extends('base')
+
+@section('body')
+    <p>hello admin</p>
+    <a href="{{ action('AdminController@getCategories') }}">カテゴリ可視化</a>
+@endsection
