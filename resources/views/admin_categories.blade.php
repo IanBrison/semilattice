@@ -3,7 +3,7 @@
 @section('title', 'カテゴリ一覧')
 
 @section('body')
-    <canvas width="1800" height="8000" style="position: absolute;">
+    <canvas width="1800" height="8000" style="position: absolute; top: 117px;">
     </canvas>
     <h1>カテゴリ一覧</h1>
     <div class="container-fluid">
@@ -13,6 +13,12 @@
             <input type="number" name="parent_id" placeholder="親カテゴリID" required>
             <input type="hidden" name="type" value="1" required>
             <button type="submit">作成</button>
+        </form>
+        <form action="{{ action('AdminController@createConnection') }}" method="POST">
+            {{ csrf_field() }}
+            <input type="number" name="parent_id" placeholder="親カテゴリID" required>
+            <input type="number" name="child_id" placeholder="子カテゴリID" required>
+            <button type="submit">接続</button>
         </form>
         <div class="row">
             @foreach($category_layers as $category_layer)
@@ -25,9 +31,9 @@
                                     strokeStyle: "black",
                                     strokeWidth: 1,
                                     x1: $("#category{{ $parent->id }}").offset().left + $("#category{{ $parent->id }}").outerWidth() + 3,
-                                    y1: $("#category{{ $parent->id }}").offset().top + $("#category{{ $parent->id }}").outerHeight() / 2,
+                                    y1: $("#category{{ $parent->id }}").offset().top + $("#category{{ $parent->id }}").outerHeight() / 2 - 117,
                                     x2: $("#category{{ $category->id }}").offset().left - 3,
-                                    y2: $("#category{{ $category->id }}").offset().top + $("#category{{ $category->id }}").outerHeight() / 2
+                                    y2: $("#category{{ $category->id }}").offset().top + $("#category{{ $category->id }}").outerHeight() / 2 - 117
                                 });
                             @endforeach
                         </script>

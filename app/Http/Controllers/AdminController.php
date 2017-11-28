@@ -21,7 +21,7 @@ class AdminController extends Controller
             for ($n = 0; $n < count($category_layers[$layer_num]); $n++) {
                 if ($category_layers[$layer_num][$n]->childs()->count() > 0) {
                     if (isset($category_layers[$layer_num + 1])){
-                        $category_layers[$layer_num + 1] = $category_layers[$layer_num]->merge($category_layers[$layer_num][$n]->childs);
+                        $category_layers[$layer_num + 1] = $category_layers[$layer_num + 1]->merge($category_layers[$layer_num][$n]->childs);
                     } else {
                         $category_layers[$layer_num + 1] = $category_layers[$layer_num][$n]->childs;
                     }
@@ -37,6 +37,14 @@ class AdminController extends Controller
     public function createCategory(Request $request)
     {
         $category = Category::create(['name' => $request->input('name'), 'type' => $request->input('type')]);
+        $category->parents()->attach($request->input('parent_id'));
+
+        return redirect()->action('AdminController@getCategories');
+    }
+
+    public function createConnection(Request $request)
+    {
+        $category = Category::findOrFail($request->input('child_id'));
         $category->parents()->attach($request->input('parent_id'));
 
         return redirect()->action('AdminController@getCategories');
