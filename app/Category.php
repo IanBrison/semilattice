@@ -18,4 +18,14 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Category', 'category_connections', 'child_category_id', 'parent_category_id');
     }
+
+    public function parent_connections()
+    {
+        return $this->hasMany('App\CategoryConnection', 'child_category_id');
+    }
+
+    public function child_connections()
+    {
+        return $this->hasMany('App\CategoryConnection', 'parent_category_id');
+    }
 }

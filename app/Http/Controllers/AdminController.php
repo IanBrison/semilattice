@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\CategoryConnection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
@@ -36,16 +37,15 @@ class AdminController extends Controller
 
     public function createCategory(Request $request)
     {
-        $category = Category::create(['name' => $request->input('name'), 'type' => $request->input('type')]);
-        $category->parents()->attach($request->input('parent_id'));
+        $category = Category::create(['name' => $request->input('name'), 'type' => $request->input('category_type')]);
+        CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $category->id, 'type' => $request->input('connection_type')]);
 
         return redirect()->action('AdminController@getCategories');
     }
 
     public function createConnection(Request $request)
     {
-        $category = Category::findOrFail($request->input('child_id'));
-        $category->parents()->attach($request->input('parent_id'));
+        CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $request->input('child_id'), 'type' => $request->input('connection_type')]);
 
         return redirect()->action('AdminController@getCategories');
     }
