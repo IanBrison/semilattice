@@ -30,9 +30,9 @@
                         <script type="text/javascript">
                             @foreach($category->parent_connections as $connection)
                                 $("canvas").drawLine({
-                                    @if ($connection->type == 1)
+                                    @if ($connection->types[0]->type == 1)
                                     strokeStyle: "black",
-                                    @elseif ($connection->type == 2)
+                                    @elseif ($connection->types[0]->type== 2)
                                     strokeStyle: "blue",
                                     @endif
                                     strokeWidth: 1,

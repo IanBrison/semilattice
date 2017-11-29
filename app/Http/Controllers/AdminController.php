@@ -38,14 +38,19 @@ class AdminController extends Controller
     public function createCategory(Request $request)
     {
         $category = Category::create(['name' => $request->input('name'), 'type' => $request->input('category_type')]);
-        CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $category->id, 'type' => $request->input('connection_type')]);
+        $connection = CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $category->id]);
+        $connection->types()->create(['type' => $request->input('connection_type')]);
 
         return redirect()->action('AdminController@getCategories');
     }
 
     public function createConnection(Request $request)
     {
-        CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $request->input('child_id'), 'type' => $request->input('connection_type')]);
+        $connection = CategoryConnection::where('parent_category_id', $request->input('parent_id'))->where('child_category_id', $request->input('child_id'))->first();
+        if (!isset($connection)) {
+            $connection = CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $request->input('child_id')]);
+        }
+        $connection->types()->create(['type' => $request->input('connection_type')]);
 
         return redirect()->action('AdminController@getCategories');
     }
