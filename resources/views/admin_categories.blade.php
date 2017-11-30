@@ -3,7 +3,7 @@
 @section('title', 'カテゴリ一覧')
 
 @section('body')
-    <canvas width="1800" height="8000" style="position: absolute; top: 117px;">
+    <canvas width="1800" height="8000" style="position: absolute; top: 147px;">
     </canvas>
     <h1>カテゴリ一覧</h1>
     <div class="container-fluid">
@@ -22,6 +22,12 @@
             <input type="number" name="connection_type" placeholder="接続タイプ" required>
             <button type="submit">接続</button>
         </form>
+        <form action="{{ action('AdminController@createContent') }}" method="POST">
+            {{ csrf_field() }}
+            <input type="text" name="name" placeholder="コンテンツ名" required>
+            <input type="number" name="category_id" placeholder="カテゴリID" required>
+            <button type="submit">作成</button>
+        </form>
         <div class="row">
             @foreach($category_layers as $category_layer)
                 <div class="col-md-2">
@@ -37,15 +43,32 @@
                                     @endif
                                     strokeWidth: 1,
                                     x1: $("#category{{ $connection->parent_category_id }}").offset().left + $("#category{{ $connection->parent_category_id }}").outerWidth() + 3,
-                                    y1: $("#category{{ $connection->parent_category_id }}").offset().top + $("#category{{ $connection->parent_category_id }}").outerHeight() / 2 - 117,
+                                    y1: $("#category{{ $connection->parent_category_id }}").offset().top + $("#category{{ $connection->parent_category_id }}").outerHeight() / 2 - 147,
                                     x2: $("#category{{ $category->id }}").offset().left - 3,
-                                    y2: $("#category{{ $category->id }}").offset().top + $("#category{{ $category->id }}").outerHeight() / 2 - 117
+                                    y2: $("#category{{ $category->id }}").offset().top + $("#category{{ $category->id }}").outerHeight() / 2 - 147
                                 });
                             @endforeach
                         </script>
                     @endforeach
                 </div>
             @endforeach
+                <div class="col-md-2">
+                    @foreach($contents as $content)
+                        <div><span id="content{{ $content->id }}">{{ $content->id . ': ' . $content->name }}</span></div>
+                        <script type="text/javascript">
+                            @foreach($content->last_categories as $last_category)
+                                $("canvas").drawLine({
+                                    strokeStyle: "red",
+                                    strokeWidth: 1,
+                                    x1: $("#category{{ $last_category->id }}").offset().left + $("#category{{ $last_category->id }}").outerWidth() + 3,
+                                    y1: $("#category{{ $last_category->id }}").offset().top + $("#category{{ $last_category->id }}").outerHeight() / 2 - 147,
+                                    x2: $("#content{{ $content->id }}").offset().left - 3,
+                                    y2: $("#content{{ $content->id }}").offset().top + $("#content{{ $content->id }}").outerHeight() / 2 - 147
+                                });
+                            @endforeach
+                        </script>
+                    @endforeach
+                </div>
         </div>
     </div>
 @endsection

@@ -28,4 +28,9 @@ class Category extends Model
     {
         return $this->hasMany('App\CategoryConnection', 'parent_category_id');
     }
+
+    public function contents()
+    {
+        return $this->belongsToMany('App\Content', 'category_contents', 'category_id', 'content_id');
+    }
 }

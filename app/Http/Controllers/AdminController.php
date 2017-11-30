@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\CategoryConnection;
+use App\Content;
 use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
 
 class AdminController extends Controller
 {
@@ -14,7 +14,7 @@ class AdminController extends Controller
     }
 
     public function getCategories() {
-        $category_layers = new Collection();
+        $category_layers = collect();
         $category_layers[0] = Category::where('type', 0)->get();
 
         $layer_num = 0;
@@ -32,7 +32,21 @@ class AdminController extends Controller
             $layer_num++;
         }
 
-        return view('admin_categories', ['category_layers' => $category_layers]);
+        $contents = collect(Content::all());
+        foreach ($contents as $content) {
+            $categories = $content->categories;
+            foreach ($categories as $index => $category) {
+                foreach ($category->childs as $child) {
+                    if ($categories->contains($child)) {
+                        $categories->pull($index);
+                        break;
+                    }
+                }
+            }
+            $content->last_categories = $categories;
+        }
+
+        return view('admin_categories', ['category_layers' => $category_layers, 'contents' => $contents]);
     }
 
     public function createCategory(Request $request)
@@ -51,6 +65,23 @@ class AdminController extends Controller
             $connection = CategoryConnection::create(['parent_category_id' => $request->input('parent_id'), 'child_category_id' => $request->input('child_id')]);
         }
         $connection->types()->create(['type' => $request->input('connection_type')]);
+
+        return redirect()->action('AdminController@getCategories');
+    }
+
+    public function createContent(Request $request)
+    {
+        $content = Content::create(['name' => $request->input('name')]);
+        $category = Category::find($request->input('category_id'));
+
+        $target_categories = collect([$category]);
+        $num = 0;
+        while($num < $target_categories->count()) {
+            $target_categories = $target_categories->merge($target_categories[$num]->parents);
+            $target_categories = $target_categories->unique('id');
+            $num++;
+        }
+        $content->categories()->sync($target_categories->pluck('id'));
 
         return redirect()->action('AdminController@getCategories');
     }

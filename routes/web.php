@@ -17,6 +17,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:web'], function () {
     Route::get('/categories', 'AdminController@getCategories');
     Route::post('/category', 'AdminController@createCategory');
     Route::post('/connection', 'AdminController@createConnection');
+    Route::post('/content', 'AdminController@createContent');
 });
 Route::get('/login', 'Auth\LoginController@getLogin')->name('login');
 Route::post('/login', 'Auth\LoginController@login');
