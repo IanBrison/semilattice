@@ -34,16 +34,17 @@ class AdminController extends Controller
 
         $contents = collect(Content::all());
         foreach ($contents as $content) {
-            $categories = $content->categories;
-            foreach ($categories as $index => $category) {
-                foreach ($category->childs as $child) {
+            $last_categories = $content->categories;
+            $categories = $last_categories->pluck('id');
+            foreach ($last_categories as $index => $category) {
+                foreach ($category->childs->pluck('id') as $child) {
                     if ($categories->contains($child)) {
-                        $categories->pull($index);
+                        $last_categories->pull($index);
                         break;
                     }
                 }
             }
-            $content->last_categories = $categories;
+            $content->last_categories = $last_categories;
         }
 
         return view('admin_categories', ['category_layers' => $category_layers, 'contents' => $contents]);
@@ -81,6 +82,23 @@ class AdminController extends Controller
             $target_categories = $target_categories->unique('id');
             $num++;
         }
+        $content->categories()->sync($target_categories->pluck('id'));
+
+        return redirect()->action('AdminController@getCategories');
+    }
+
+    public function createCategoryContent(Request $request)
+    {
+        $content = Content::find($request->input('content_id'));
+        $category = Category::find($request->input('category_id'));
+        $target_categories = collect([$category]);
+        $num = 0;
+        while($num < $target_categories->count()) {
+            $target_categories = $target_categories->merge($target_categories[$num]->parents);
+            $target_categories = $target_categories->unique('id');
+            $num++;
+        }
+        $target_categories = $target_categories->merge($content->categories)->unique('id');
         $content->categories()->sync($target_categories->pluck('id'));
 
         return redirect()->action('AdminController@getCategories');
