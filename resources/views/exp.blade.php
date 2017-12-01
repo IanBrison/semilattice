@@ -1,12 +1,16 @@
 @extends('base')
 
 @section('body')
-    @foreach ($category->childs as $child)
-        <a href="{{ action('ExperimentController@getCategory', [$child->id]) }}">{{ $child->name }}</a>
-    @endforeach
-    <ul>
-        @foreach ($category->contents as $content)
-            <li>{{ $content->name }}</li>
+    <div class="container">
+        <h2>選べるカテゴリ</h2>
+        @foreach ($category->childs as $child)
+            <a class="btn btn-success" href="{{ action('ExperimentController@getCategory', [$child->id]) }}">{{ $child->name }}</a>
         @endforeach
-    </ul>
+        <h2 style="margin-top: 40px;">コンテンツ</h2>
+        <ul>
+            @foreach ($category->contents as $content)
+                <li>{{ $content->name }}</li>
+            @endforeach
+        </ul>
+    </div>
 @endsection
