@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\CategoryConnection;
+use App\CategoryLink;
 use App\Content;
+use App\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -13,7 +16,19 @@ class AdminController extends Controller
         return view('admin_top');
     }
 
-    public function getCategories() {
+    public function getCategoryVue()
+    {
+        return view('admin_category_vue');
+    }
+
+    public function getChilds($id)
+    {
+        $childs = Category::find($id)->childs;
+        return $childs;
+    }
+
+    public function getCategories()
+    {
         $category_layers = collect();
         $category_layers[0] = Category::where('type', 0)->get();
 
@@ -102,5 +117,35 @@ class AdminController extends Controller
         $content->categories()->sync($target_categories->pluck('id'));
 
         return redirect()->action('AdminController@getCategories');
+    }
+
+    public function move()
+    {
+        //$pages = Page::where('page_id', '<', 1000)->with('categories')->get();
+
+
+        $categorylinks = CategoryLink::where('cl_from', '<', 10000)->with('page')->get();
+
+        foreach ($categorylinks as $categorylink) {
+            if ($categorylink->cl_type == 'page') {
+                $content = Content::firstOrCreate(['name' => $categorylink->page->page_title]);
+                $category = Category::firstOrCreate(['name' => $categorylink->cl_to, 'type' => 1]);
+                $content->categories()->attach($category->id);
+            } else if ($categorylink->cl_type == 'subcat') {
+                $child_category = Category::firstOrCreate(['name' => $categorylink->page->page_title, 'type' => 1]);
+                $parent_category = Category::firstOrCreate(['name' => $categorylink->cl_to, 'type' => 1]);
+
+                CategoryConnection::firstOrCreate(['parent_category_id' => $parent_category->id, 'child_category_id' => $child_category->id]);
+            }
+        }
+
+        $categories = Category::withCount('parents')->get();
+        foreach ($categories as $category) {
+            if ($category->parents_count == 0) {
+                CategoryConnection::firstOrCreate(['parent_category_id' => 1, 'child_category_id' => $category->id]);
+            }
+        }
+
+        return 'success';
     }
 }

@@ -3,7 +3,7 @@
 @section('title', 'カテゴリ一覧')
 
 @section('body')
-    <canvas width="1800" height="8000" style="position: absolute; top: 177px;">
+    <canvas width="1800" height="80000" style="position: absolute; top: 177px;">
     </canvas>
     <h1>カテゴリ一覧</h1>
     <div class="container-fluid">
@@ -36,17 +36,13 @@
         </form>
         <div class="row">
             @foreach($category_layers as $category_layer)
-                <div class="col-md-2">
+                <div class="col-md-1" style="padding: 0;">
                     @foreach($category_layer as $category)
                         <div><span id="category{{ $category->id }}">{{ $category->id . ': ' . $category->name }}</span></div>
                         <script type="text/javascript">
                             @foreach($category->parent_connections as $connection)
                                 $("canvas").drawLine({
-                                    @if ($connection->types[0]->type == 1)
                                     strokeStyle: "black",
-                                    @elseif ($connection->types[0]->type== 2)
-                                    strokeStyle: "blue",
-                                    @endif
                                     strokeWidth: 1,
                                     x1: $("#category{{ $connection->parent_category_id }}").offset().left + $("#category{{ $connection->parent_category_id }}").outerWidth() + 3,
                                     y1: $("#category{{ $connection->parent_category_id }}").offset().top + $("#category{{ $connection->parent_category_id }}").outerHeight() / 2 - 177,

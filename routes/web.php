@@ -19,6 +19,9 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:web'], function () {
     Route::post('/connection', 'AdminController@createConnection');
     Route::post('/content', 'AdminController@createContent');
     Route::post('/category_content', 'AdminController@createCategoryContent');
+    Route::get('/move', 'AdminController@move');
+    Route::get('/category_vue', 'AdminController@getCategoryVue');
+    Route::get('/category/{id}', 'AdminController@getChilds');
 });
 Route::group(['prefix' => '/exp'], function () {
     Route::get('/', 'ExperimentController@getStart');
