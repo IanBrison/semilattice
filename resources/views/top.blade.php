@@ -32,27 +32,27 @@
         <div id="explanation" class="row">
             <div class="col-12">
                 <h2 class="title">
-                    ①被験者情報の登録
+                    1. 被験者情報の登録
                 </h2>
             </div>
             <div class="col-12">
                 <h2 class="detail">
-                    学年・性別・学部・お名前などを入力してもらいます。実験にとって大切なのはもちろんのこと、④のためにも重要なのでよろしくお願いします。
+                    学年・性別・学部・お名前などを入力してもらいます。実験にとって大切なのはもちろんのこと、4.のためにも重要なのでよろしくお願いします。
                 </h2>
             </div>
             <div class="col-12">
                 <h2 class="title">
-                    ②実験
+                    2. 実験
                 </h2>
             </div>
             <div class="col-12">
                 <h2 class="detail">
-                    実際に実験を行ってもらいます。何をするかは後ほど教えます。途中でやめられるとデータが不完全になったりしてしまうので、始めたらなるべく最後まで終わらせてください。
+                    実際に実験を行ってもらいます。何をするかは後ほど教えます。途中でやめられるとデータが不完全になったりしてしまうので、始めたらなるべく最後まで一気に終わらせてください。
                 </h2>
             </div>
             <div class="col-12">
                 <h2 class="title">
-                    ③アンケート
+                    3. アンケート
                 </h2>
             </div>
             <div class="col-12">
@@ -62,7 +62,7 @@
             </div>
             <div class="col-12">
                 <h2 class="title">
-                    ④図書カード500円分をもらう（オプション）
+                    4. 図書カード500円分をもらう（オプション）
                 </h2>
             </div>
             <div class="col-12">
@@ -74,7 +74,7 @@
     </div>
 
     <div id="next" class="container text-right" style="display: none;">
-        <a href="{{ action('ExperimentController@getStart') }}">被験者情報登録に進む</a>
+        <a href="{{ action('ExperimentController@getRegister') }}">被験者情報登録に進む</a>
     </div>
 @endsection
 

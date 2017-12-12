@@ -24,6 +24,8 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:web'], function () {
 });
 Route::group(['prefix' => '/exp'], function () {
     Route::get('/', 'ExperimentController@getStart');
+    Route::get('/register', 'ExperimentController@getRegister');
+    Route::post('/register', 'ExperimentController@postRegister');
     Route::get('/category/{id}', 'ExperimentController@getCategory');
 });
 Route::get('/login', 'Auth\LoginController@getLogin')->name('login');

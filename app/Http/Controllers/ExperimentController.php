@@ -12,6 +12,16 @@ class ExperimentController extends Controller
         return view('start');
     }
 
+    public function getRegister()
+    {
+        return view('register');
+    }
+
+    public function postRegister(Request $request)
+    {
+        return redirect(action('ExperimentController@getStart'));
+    }
+
     public function getCategory($id)
     {
         $category = Category::find($id);
