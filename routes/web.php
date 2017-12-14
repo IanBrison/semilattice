@@ -12,6 +12,8 @@
 */
 
 Route::view('/', 'top');
+Route::get('/register', 'ExperimentController@getRegister');
+Route::post('/register', 'ExperimentController@postRegister');
 Route::group(['prefix' => '/admin', 'middleware' => 'auth:web'], function () {
     Route::get('/', 'AdminController@getIndex');
     Route::get('/categories', 'AdminController@getCategories');
@@ -23,10 +25,10 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:web'], function () {
     Route::get('/category/{id}', 'AdminController@getChilds');
 });
 Route::group(['prefix' => '/exp'], function () {
-    Route::get('/', 'ExperimentController@getStart');
-    Route::get('/register', 'ExperimentController@getRegister');
-    Route::post('/register', 'ExperimentController@postRegister');
-    Route::get('/category/{id}', 'ExperimentController@getCategory');
+    Route::get('/', 'ExperimentController@getIndex');
+    Route::get('/{quiz_num}/{category_id}', 'ExperimentController@getExperiment');
+    Route::get('/result/{quiz_num}/{content_id}', 'ExperimentController@getResult');
+    Route::get('/thank_you', 'ExperimentController@getThankYou');
 });
 Route::get('/login', 'Auth\LoginController@getLogin')->name('login');
 Route::post('/login', 'Auth\LoginController@login');

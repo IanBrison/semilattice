@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Content;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class ExperimentController extends Controller
 {
-    public function getStart()
+
+    private $questions = [0, [93707, '/images/steven-gerrard.jpg'], [95626, '/images/halil.jpg']];
+
+    public function getIndex()
     {
         return view('start');
     }
@@ -19,13 +24,29 @@ class ExperimentController extends Controller
 
     public function postRegister(Request $request)
     {
-        return redirect(action('ExperimentController@getStart'));
+        Subject::create(['name' => $request->input('name'), 'uni_id' => $request->input('uni_id')]);
+        return redirect(action('ExperimentController@getIndex'));
     }
 
-    public function getCategory($id)
+    public function getExperiment($quiz_num, $category_id)
     {
-        $category = Category::find($id);
+        $target_content = Content::find($this->questions[$quiz_num][0]);
+        $category = Category::find($category_id);
 
-        return view('exp', ['category' => $category]);
+        return view('exp', ['quiz' => $this->questions[$quiz_num], 'quiz_num' => $quiz_num, 'target_content' => $target_content, 'category' => $category]);
+    }
+
+    public function getResult($quiz_num, $content_id)
+    {
+        if ($quiz_num + 1 >= count($this->questions)) {
+            return redirect(action('ExperimentController@getThankYou'));
+        }
+
+        return redirect(action('ExperimentController@getExperiment', [$quiz_num + 1, 1]));
+    }
+
+    public function getThankYou()
+    {
+        return view('thank_you');
     }
 }
