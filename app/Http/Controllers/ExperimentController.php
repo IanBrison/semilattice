@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Content;
 use App\Subject;
+use App\Track;
 use Illuminate\Http\Request;
 
 class ExperimentController extends Controller
@@ -30,14 +31,26 @@ class ExperimentController extends Controller
 
     public function getExperiment($quiz_num, $category_id)
     {
+        if ($category_id != 1) {
+            Track::create(['subject_id' => 1, 'quiz_num' => $quiz_num, 'category_id' => $category_id]);
+        }
+
         $target_content = Content::find($this->questions[$quiz_num][0]);
         $category = Category::find($category_id);
+        $contents = $category->contents()->paginate(30);
 
-        return view('exp', ['quiz' => $this->questions[$quiz_num], 'quiz_num' => $quiz_num, 'target_content' => $target_content, 'category' => $category]);
+        return view('exp', ['quiz' => $this->questions[$quiz_num],
+            'quiz_num' => $quiz_num,
+            'target_content' => $target_content,
+            'category' => $category,
+            'contents' => $contents]);
     }
 
     public function getResult($quiz_num, $content_id)
     {
+        if ($content_id == 0) $content_id = null;
+        Track::create(['subject_id' => 1, 'quiz_num' => $quiz_num, 'content_id' => $content_id]);
+
         if ($quiz_num + 1 >= count($this->questions)) {
             return redirect(action('ExperimentController@getThankYou'));
         }
