@@ -8,6 +8,8 @@ use App\Subject;
 use App\Track;
 use Illuminate\Http\Request;
 
+use Auth;
+
 class ExperimentController extends Controller
 {
 
@@ -25,7 +27,8 @@ class ExperimentController extends Controller
 
     public function postRegister(Request $request)
     {
-        Subject::create(['name' => $request->input('name'), 'uni_id' => $request->input('uni_id')]);
+        $subject = Subject::create(['name' => $request->input('name'), 'uni_id' => $request->input('uni_id')]);
+        Auth::login($subject);
         return redirect(action('ExperimentController@getIndex'));
     }
 
@@ -60,6 +63,7 @@ class ExperimentController extends Controller
 
     public function getThankYou()
     {
+        Auth::logout();
         return view('thank_you');
     }
 }
