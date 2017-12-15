@@ -1,6 +1,9 @@
 @extends('base')
 
 @section('body')
-    <p>hello admin</p>
-    <a href="{{ action('AdminController@getCategoryVue') }}">カテゴリ可視化</a>
+    <div class="container">
+        <h2>イアンの管理画面</h2>
+        <a href="{{ action('AdminController@getCategoryVue') }}" class="btn btn-info">カテゴリ表示</a>
+        <a href="{{ action('AdminController@getSubjectResults') }}" class="btn btn-info">みんなの結果</a>
+    </div>
 @endsection

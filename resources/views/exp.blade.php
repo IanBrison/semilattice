@@ -20,6 +20,9 @@
         #give_up {
             color: red;
         }
+        .hidden_button {
+            visibility: hidden;
+        }
     </style>
 @endsection
 
@@ -43,8 +46,16 @@
                 <h3>コンテンツ</h3>
                 @if ($contents->hasPages() )
                 <div class="text-center">
-                    <a class="btn btn-info pagination-button" href="{{ $contents->previousPageUrl() }}">前へ</a>
-                    <a class="btn btn-info pagination-button" href="{{ $contents->nextPageUrl() }}">次へ</a>
+                    @if ($contents->currentPage() > 1)
+                        <a class="btn btn-info pagination-button" href="{{ $contents->previousPageUrl() }}">前へ</a>
+                    @else
+                        <a class="btn btn-info pagination-button hidden_button" href="{{ $contents->previousPageUrl() }}">前へ</a>
+                    @endif
+                    @if ($contents->hasMorePages())
+                        <a class="btn btn-info pagination-button" href="{{ $contents->nextPageUrl() }}">次へ</a>
+                    @else
+                        <a class="btn btn-info pagination-button hidden_button" href="{{ $contents->nextPageUrl() }}">次へ</a>
+                    @endif
                 </div>
                 @endif
                 <ul>

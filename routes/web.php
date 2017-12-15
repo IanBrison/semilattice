@@ -17,6 +17,7 @@ Route::post('/register', 'ExperimentController@postRegister');
 Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/', 'AdminController@getIndex');
     Route::get('/categories', 'AdminController@getCategories');
+    Route::get('/results', 'AdminController@getSubjectResults');
     Route::post('/category', 'AdminController@createCategory');
     Route::post('/connection', 'AdminController@createConnection');
     Route::post('/content', 'AdminController@createContent');

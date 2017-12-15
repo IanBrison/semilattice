@@ -7,6 +7,7 @@ use App\CategoryConnection;
 use App\CategoryLink;
 use App\Content;
 use App\Page;
+use App\Subject;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -18,6 +19,12 @@ class AdminController extends Controller
     public function getCategoryVue()
     {
         return view('admin_category_vue');
+    }
+
+    public function getSubjectResults()
+    {
+        $subjects = Subject::with('tracks')->get();
+        return view('admin_results', ['subjects' => $subjects]);
     }
 
     public function getChilds($id)

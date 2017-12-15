@@ -12,4 +12,8 @@ class Subject extends Authenticatable
     protected $table = 'subjects';
     protected $fillable = ['name', 'uni_id'];
 
+    public function tracks()
+    {
+        return $this->hasMany('App\Track', 'subject_id');
+    }
 }

@@ -35,7 +35,7 @@ class ExperimentController extends Controller
     public function getExperiment($quiz_num, $category_id)
     {
         if ($category_id != 1) {
-            Track::create(['subject_id' => 1, 'quiz_num' => $quiz_num, 'category_id' => $category_id]);
+            Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_num' => $quiz_num, 'category_id' => $category_id]);
         }
 
         $target_content = Content::find($this->questions[$quiz_num][0]);
@@ -52,7 +52,7 @@ class ExperimentController extends Controller
     public function getResult($quiz_num, $content_id)
     {
         if ($content_id == 0) $content_id = null;
-        Track::create(['subject_id' => 1, 'quiz_num' => $quiz_num, 'content_id' => $content_id]);
+        Track::create(['subject_id' => Auth::user()->id, 'quiz_num' => $quiz_num, 'content_id' => $content_id]);
 
         if ($quiz_num + 1 >= count($this->questions)) {
             return redirect(action('ExperimentController@getThankYou'));
