@@ -43,7 +43,7 @@
                 @endforeach
             </div>
             <div class="col-4">
-                <h3>コンテンツ</h3>
+                <h3>コンテンツ（{{ $contents->total() }}）</h3>
                 @if ($contents->hasPages() )
                 <div class="text-center">
                     @if ($contents->currentPage() > 1)

@@ -43,8 +43,8 @@ class move extends Command
     public function handle()
     {
         $categories = collect([Category::find(1)]);
-        $all_num = 1;
 
+        $all_num = 1;
         for ($num = 0; $num < count($categories); $num++) {
             $connections = CategoryLink::where('cl_to', $categories[$num]->name)->where('cl_type', 'subcat')->get();
             foreach ($connections as $connection) {
@@ -61,6 +61,7 @@ class move extends Command
                 }
             }
         }
+
         $all_num = 1;
         foreach ($categories as $category) {
             $pages = Page::whereIn('page_id', CategoryLink::select('cl_from')->where('cl_to', $category->name)->where('cl_type', 'page')->get()->pluck('cl_from'))->get();
@@ -70,6 +71,17 @@ class move extends Command
                 $this->line($all_num . ': ' . $content->name);
                 $all_num++;
             }
+        }
+
+        $contents = Content::all();
+        foreach ($contents as $content) {
+            $content_categories = collect($content->categories);
+            $this->line($content->name);
+            for ($num = 0; $num < $content_categories->count(); $num++) {
+                $content_categories = $content_categories->merge($content_categories[$num]->parents)->unique('id')->values();
+            }
+            $content->categories()->sync($content_categories->pluck('id'));
+            $this->line($content_categories->implode('id', ', '));
         }
 
     }
