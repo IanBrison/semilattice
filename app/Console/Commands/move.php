@@ -52,7 +52,7 @@ class move extends Command
                 if (preg_match('/のテンプレート/', $page_name)) {
                     continue;
                 }
-                $category = Category::firstOrCreate(['name' => $page_name, 'type' => 1]);
+                $category = Category::firstOrCreate(['name' => $page_name]);
                 CategoryConnection::firstOrCreate(['parent_category_id' => $categories[$num]->id, 'child_category_id' => $category->id]);
                 if (!$categories->contains('id', $category->id)) {
                     $categories->push($category);
