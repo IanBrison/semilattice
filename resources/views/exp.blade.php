@@ -31,7 +31,7 @@
         <div class="row">
             <div class="col-12" id="look_for">
                 <h2>探してほしいコンテンツ</h2>
-                {{ $target_content->name }}<img src="{{ $quiz[1] }}" height="30px" width="30px">
+                {{ $target_content->name }}
             </div>
             <div class="col-12">
                 <h2>{{ $category->name }}</h2>

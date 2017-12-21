@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\Content;
+use App\Quiz;
 use App\Subject;
 use App\Track;
 use Illuminate\Http\Request;
@@ -12,8 +13,6 @@ use Auth;
 
 class ExperimentController extends Controller
 {
-
-    private $questions = [0, [93707, '/images/steven-gerrard.jpg'], [95626, '/images/halil.jpg']];
 
     public function getIndex()
     {
@@ -34,15 +33,17 @@ class ExperimentController extends Controller
 
     public function getExperiment($quiz_num, $category_id)
     {
+        $quizzes = Quiz::orderBy('id')->get();
+
         if ($category_id != 1) {
-            Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_num' => $quiz_num, 'category_id' => $category_id]);
+            Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_id' => $quizzes[$quiz_num - 1]->id, 'category_id' => $category_id]);
         }
 
-        $target_content = Content::find($this->questions[$quiz_num][0]);
+        $target_content = $quizzes[$quiz_num - 1]->content;
         $category = Category::find($category_id);
         $contents = $category->contents()->paginate(30);
 
-        return view('exp', ['quiz' => $this->questions[$quiz_num],
+        return view('exp', ['quiz' => $quizzes[$quiz_num - 1],
             'quiz_num' => $quiz_num,
             'target_content' => $target_content,
             'category' => $category,
@@ -51,10 +52,12 @@ class ExperimentController extends Controller
 
     public function getResult($quiz_num, $content_id)
     {
-        if ($content_id == 0) $content_id = null;
-        Track::create(['subject_id' => Auth::user()->id, 'quiz_num' => $quiz_num, 'content_id' => $content_id]);
+        $quizzes = Quiz::orderBy('id')->get();
 
-        if ($quiz_num + 1 >= count($this->questions)) {
+        if ($content_id == 0) $content_id = null;
+        Track::create(['subject_id' => Auth::user()->id, 'quiz_id' => $quizzes[$quiz_num - 1]->id, 'content_id' => $content_id]);
+
+        if ($quiz_num >= $quizzes->count()) {
             return redirect(action('ExperimentController@getThankYou'));
         }
 

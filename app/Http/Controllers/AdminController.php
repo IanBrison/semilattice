@@ -25,7 +25,8 @@ class AdminController extends Controller
     public function getSubjectResults()
     {
         $subjects = Subject::with('tracks')->get();
-        return view('admin_results', ['subjects' => $subjects]);
+        $quizzes = Quiz::orderBy('id')->get();
+        return view('admin_results', ['subjects' => $subjects, 'quizzes' => $quizzes]);
     }
 
     public function getChilds($id)
@@ -36,7 +37,7 @@ class AdminController extends Controller
 
     public function getQuizzes()
     {
-        $quizzes = Quiz::all();
+        $quizzes = Quiz::orderBy('id')->get();
         return view('admin_quizzes', ['quizzes' => $quizzes]);
     }
 

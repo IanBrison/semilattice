@@ -12,6 +12,20 @@
         h3 {
             font-size: 20px;
         }
+        .track_category_good {
+            color: black;
+            border-bottom: solid 1px green;
+        }
+        .track_category_bad {
+            color: black;
+            border-bottom: solid 1px red;
+        }
+        .track_content_good {
+            color: green;
+        }
+        .track_content_bad {
+            color: red;
+        }
     </style>
 @endsection
 
@@ -22,20 +36,29 @@
             @foreach($subjects as $subject)
                 <div class="subject-div row">
                     <h3 class="subject-name col-12">名前:{{ $subject->name }} 学籍番号:{{ $subject->uni_id }}</h3>
-                    @for ($quiz_num = 1; $quiz_num <= 2; $quiz_num++)
+                    @foreach ($quizzes as $index => $quiz)
                         <div class="col-12">
-                            問{{ $quiz_num }}
-                            @foreach($subject->tracks()->where('quiz_num', $quiz_num)->get() as $track)
+                            問{{ $index + 1 }}
+                            @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
                                 @if ($track->category_id != null)
-                                    {{ $track->category_id }}->
+                                    @if ($track->category->contents()->where('contents.id', $quiz->content_id)->exists())
+                                        <span class="track_category_good">{{ $track->category_id }}</span>
+                                    @else
+                                        <span class="track_category_bad">{{ $track->category_id }}</span>
+                                    @endif
+                                    ->
                                 @elseif ($track->content_id != null)
-                                    {{ $track->content_id }}
+                                    @if ($track->content_id == $quiz->content_id)
+                                        <span class="track_content_good">{{ $track->content_id }}</span>
+                                    @else
+                                        <span class="track_content_bad">{{ $track->content_id }}</span>
+                                    @endif
                                 @else
-                                    諦めた
+                                    <span class="track_content_bad">諦めた</span>
                                 @endif
                             @endforeach
                         </div>
-                    @endfor
+                    @endforeach
                 </div>
             @endforeach
         </div>
