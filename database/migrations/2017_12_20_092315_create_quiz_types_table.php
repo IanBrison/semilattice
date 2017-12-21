@@ -15,14 +15,14 @@ class CreateQuizTypesTable extends Migration
     {
         Schema::create('quiz_types', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('quiz_id');
+            $table->unsignedInteger('quiz_id');
             $table->foreign('quiz_id')
                 ->references('id')
                 ->on('quizzes')
                 ->onDelete('cascade');
-            $table->integer('type_id');
+            $table->unsignedInteger('type_id');
             $table->foreign('type_id')
-                ->references('type_id')
+                ->references('id')
                 ->on('types')
                 ->onDelete('cascade');
             $table->timestamps();

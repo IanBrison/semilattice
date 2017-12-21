@@ -7,6 +7,7 @@ use App\CategoryConnection;
 use App\CategoryLink;
 use App\Content;
 use App\Page;
+use App\Quiz;
 use App\Subject;
 use Illuminate\Http\Request;
 
@@ -31,6 +32,28 @@ class AdminController extends Controller
     {
         $childs = Category::find($id)->childs;
         return $childs;
+    }
+
+    public function getQuizzes()
+    {
+        $quizzes = Quiz::all();
+        return view('admin_quizzes', ['quizzes' => $quizzes]);
+    }
+
+    public function postCreateQuiz(Request $request)
+    {
+        $quiz = Quiz::create(['content_id' => $request->input('content_id')]);
+        $quiz->types()->sync($request->input('types'));
+
+        return redirect(action('AdminController@getQuizzes'));
+    }
+
+    public function postDeleteQuiz(Request $request)
+    {
+        $quiz = Quiz::findOrFail($request->input('quiz_id'));
+        $quiz->delete();
+
+        return redirect(action('AdminController@getQuizzes'));
     }
 
     public function getCategories()

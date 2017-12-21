@@ -7,6 +7,7 @@ use App\CategoryConnection;
 use App\CategoryLink;
 use App\Content;
 use App\Page;
+use App\Type;
 use Illuminate\Console\Command;
 
 class move extends Command
@@ -42,6 +43,7 @@ class move extends Command
      */
     public function handle()
     {
+        $types = Type::all();
         $categories = collect([Category::find(1)]);
 
         $all_num = 1;
@@ -59,6 +61,7 @@ class move extends Command
                     $this->line($num . ': ' . $all_num . ',' . $category->name);
                     $all_num++;
                 }
+                $category->types()->sync($types->random(rand(1, 3))->pluck('id'));
             }
         }
 

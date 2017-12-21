@@ -23,7 +23,8 @@ class CreateTracksTable extends Migration
             $table->unsignedInteger('quiz_id');
             $table->foreign('quiz_id')
                 ->references('id')
-                ->on('quizzes');
+                ->on('quizzes')
+                ->onDelete('cascade');
             $table->unsignedInteger('category_id')->nullable();
             $table->foreign('category_id')
                 ->references('id')

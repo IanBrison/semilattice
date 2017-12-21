@@ -33,4 +33,9 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Content', 'category_contents', 'category_id', 'content_id');
     }
+
+    public function types()
+    {
+        return $this->belongsToMany('App\Type', 'category_types', 'category_id', 'type_id');
+    }
 }
