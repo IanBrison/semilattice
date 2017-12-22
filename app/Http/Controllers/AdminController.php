@@ -19,6 +19,7 @@ class AdminController extends Controller
 
     public function getCategoryVue()
     {
+        // テスト
         return view('admin_category_vue');
     }
 
