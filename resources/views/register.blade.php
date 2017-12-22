@@ -24,7 +24,7 @@
                 <form action="{{ action('ExperimentController@postRegister') }}" method="post" class="col-12 row form-horizontal">
                     {{ csrf_field() }}
                     <div class="form-group col-12 row">
-                        <label for="input_name" class="col-2 control-label">名前：</label>
+                        <label for="input_name" class="col-2 control-label">お名前：</label>
                         <div class="col-10">
                             <input type="text" class="form-control" name="name" placeholder="Name" /><br />
                         </div>
