@@ -1,11 +1,20 @@
 @extends('base')
 
+@section('head')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script type="text/javascript">
+        window.Laravel = window.Laravel || {};
+        window.Laravel.csrfToken = "{{csrf_token()}}";
+    </script>
+@endsection
+
 @section('body')
-    <div class="container">
+    <div id="app" class="container">
         <h2>クイズ一覧</h2>
         <div class="row">
+            <div class="col-8 row" style="height: 100%;">
             @foreach($quizzes as $index => $quiz)
-                <div class="col-4 row">
+                <div class="col-6 row">
                     <h4 class="col-12">
                         問{{ $index + 1 }}
                     </h4>
@@ -30,7 +39,9 @@
                     </form>
                 </div>
             @endforeach
-            <div class="col-4">
+            </div>
+            <div class="col-4 row">
+                <div class="col-12">
                 <h4>新しいクイズ</h4>
                 <form method="POST" action="{{ action('AdminController@postCreateQuiz') }}">
                     {{ csrf_field() }}
@@ -56,7 +67,13 @@
                         </div>
                     </div>
                 </form>
+                </div>
+                <search-quizzes search_url="{{action('AdminController@getSearchQuizzes', ['keyword' => ''])}}"></search-quizzes>
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script src="/js/app.js"></script>
 @endsection

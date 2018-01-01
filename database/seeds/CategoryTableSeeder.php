@@ -11,6 +11,6 @@ class CategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Category::create(['name' => '料理', 'type' => 0]);
+        \App\Category::create(['name' => 'サッカー大会']);
     }
 }

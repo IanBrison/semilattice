@@ -19,6 +19,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/categories', 'AdminController@getCategories');
     Route::get('/results', 'AdminController@getSubjectResults');
     Route::get('/quizzes', 'AdminController@getQuizzes');
+    Route::get('/quizzes/search/{keyword}', 'AdminController@getSearchQuizzes');
     Route::post('/quiz/delete', 'AdminController@postCreateQuiz');
     Route::post('/quiz/create', 'AdminController@postDeleteQuiz');
     Route::post('/category', 'AdminController@createCategory');

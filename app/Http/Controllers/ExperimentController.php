@@ -35,6 +35,10 @@ class ExperimentController extends Controller
     {
         $quizzes = Quiz::orderBy('id')->get();
 
+        if ($quiz_num > $quizzes->count()) {
+            return redirect(action('ExperimentController@getThankYou'));
+        }
+
         if ($category_id != 1) {
             Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_id' => $quizzes[$quiz_num - 1]->id, 'category_id' => $category_id]);
         }
@@ -57,7 +61,7 @@ class ExperimentController extends Controller
         if ($content_id == 0) $content_id = null;
         Track::create(['subject_id' => Auth::user()->id, 'quiz_id' => $quizzes[$quiz_num - 1]->id, 'content_id' => $content_id]);
 
-        if ($quiz_num >= $quizzes->count()) {
+        if ($quiz_num > $quizzes->count()) {
             return redirect(action('ExperimentController@getThankYou'));
         }
 

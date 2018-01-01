@@ -16,6 +16,7 @@ window.Vue = require('vue');
  */
 
 Vue.component('semilattice', require('./components/Semilattice.vue'));
+Vue.component('search-quizzes', require('./components/SearchQuizzes.vue'));
 
 const app = new Vue({
     el: '#app'

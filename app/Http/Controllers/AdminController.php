@@ -42,6 +42,12 @@ class AdminController extends Controller
         return view('admin_quizzes', ['quizzes' => $quizzes]);
     }
 
+    public function getSearchQuizzes($keyword)
+    {
+        $search_contents = Content::where('name', 'like', '%' . $keyword . '%')->get();
+        return response()->json($search_contents);
+    }
+
     public function postCreateQuiz(Request $request)
     {
         $quiz = Quiz::create(['content_id' => $request->input('content_id')]);
