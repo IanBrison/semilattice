@@ -9,26 +9,30 @@
             height: 30px;
         }
         #explanation {
-            margin: 10px;
+            margin: 30px 10px 10px 10px;
             padding: 10px;
             border: solid;
-            display: none;
         }
         .title {
             font-weight: 900;
+        }
+        #next {
+            font-size: 25px;
         }
     </style>
 @endsection
 
 @section('body')
     <div id="block"></div>
-    <div class="container">
-        <h2 class="tlt">
-            こんにちは、社会情報学研究室のブライソンです。今日は実験に参加してくれてどうもありがとう！
-        </h2>
-        <h2 class="tlt2">
-            これから３つのこと（オプションでもう一つも可能）をしてもらいます。想定している総時間は10分です。
-        </h2>
+    <div class="container-fluid">
+        <div class="text-center">
+            <h2 class="tlt">
+                こんにちは、社会情報学研究室のブライソンです。今日は実験に参加してくれてどうもありがとう！
+            </h2>
+            <h2 class="tlt2">
+                これから３つのこと（オプションでもう一つも可）をしてもらいます。想定している総時間は10分です。
+            </h2>
+        </div>
         <div id="explanation" class="row">
             <div class="col-12">
                 <h2 class="title">
@@ -73,21 +77,12 @@
         </div>
     </div>
 
-    <div id="next" class="container text-right" style="display: none;">
-        <a href="{{ action('ExperimentController@getRegister') }}">被験者情報登録に進む</a>
+    <div id="next" class="container-fluid text-right">
+        <a href="{{ action('ExperimentController@getRegister') }}" style="margin-right: 10px;">被験者情報登録に進む</a>
     </div>
 @endsection
 
 @section('script')
     <script>
-        $('.tlt').textillate({autoStart: true, in : {effect: 'fadeIn', sync: true, delayScale: 1.5}}).on('end.tlt', function() {
-            $('.tlt2').textillate('start');
-        });
-        $('.tlt2').textillate({autoStart: false, in : {effect: 'fadeIn', sync: true, delayScale: 1.5}}).on('end.tlt', function() {
-            $('.tlt3').textillate('start');
-            $('#explanation').fadeIn(2000, function () {
-                $('#next').fadeIn();
-            });
-        });
     </script>
 @endsection
