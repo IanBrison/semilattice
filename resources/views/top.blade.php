@@ -17,7 +17,7 @@
             font-weight: 900;
         }
         #next {
-            font-size: 25px;
+            margin-bottom: 25px;
         }
     </style>
 @endsection
@@ -28,8 +28,6 @@
         <div class="text-center">
             <h2 class="tlt">
                 こんにちは、社会情報学研究室のブライソンです。今日は実験に参加してくれてどうもありがとう！
-            </h2>
-            <h2 class="tlt2">
                 これから３つのこと（オプションでもう一つも可）をしてもらいます。想定している総時間は10分です。
             </h2>
         </div>

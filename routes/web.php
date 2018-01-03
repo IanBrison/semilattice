@@ -11,7 +11,7 @@
 |
 */
 
-Route::view('/', 'top')->name('login');
+Route::view('/', 'top')->name('top');
 Route::get('/register', 'ExperimentController@getRegister');
 Route::post('/register', 'ExperimentController@postRegister');
 Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
@@ -33,7 +33,7 @@ Route::group(['prefix' => '/exp', 'middleware' => 'auth:subject'], function () {
     Route::get('/', 'ExperimentController@getIndex');
     Route::get('/{quiz_num}/{category_id}', 'ExperimentController@getExperiment');
     Route::get('/result/{quiz_num}/{content_id}', 'ExperimentController@getResult');
-    Route::get('/thank_you', 'ExperimentController@getThankYou');
 });
+Route::get('/thank_you', 'ExperimentController@getThankYou');
 Route::get('/login', 'Auth\LoginController@getLogin');
 Route::post('/login', 'Auth\LoginController@login');

@@ -45,7 +45,7 @@ class ExperimentController extends Controller
 
         $target_content = $quizzes[$quiz_num - 1]->content;
         $category = Category::find($category_id);
-        $contents = $category->contents()->paginate(30);
+        $contents = $category->contents()->paginate(10);
 
         return view('exp', ['quiz' => $quizzes[$quiz_num - 1],
             'quiz_num' => $quiz_num,
