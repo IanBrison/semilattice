@@ -11,7 +11,7 @@
 |
 */
 
-Route::view('/', 'top')->name('top');
+Route::view('/', 'top')->name('login');
 Route::get('/register', 'ExperimentController@getRegister');
 Route::post('/register', 'ExperimentController@postRegister');
 Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {

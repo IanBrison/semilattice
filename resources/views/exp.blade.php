@@ -3,10 +3,10 @@
 @section('head')
     <style>
         h2 {
-            margin: 10px;
+            margin: 8px 8px 8px 0px;
         }
         h3 {
-            margin: 10px;
+            margin: 8px 8px 8px 0px;
         }
         a {
             margin-top: 5px;
@@ -14,6 +14,9 @@
         .pagination {
             width: fit-content;
             margin: 0px auto 50px;
+        }
+        #current_category {
+            font-size: 20px;
         }
         #give_up {
             color: red;
@@ -137,7 +140,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <h3>カテゴリ</h3>
+                <h3>カテゴリ<br><a id="current_category">{{ $category->name }}</a></h3>
                 <div class="list-group">
                 @foreach ($category->childs as $child)
                     <a class="list-group-item list-group-item-activate" href="{{ action('ExperimentController@getExperiment', [$quiz_num, $child->id]) }}">{{ $child->name }}</a>
@@ -148,7 +151,7 @@
                 <h3>コンテンツ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">見つからないので次に行く</a></h3>
             </div>
             @foreach ($contents as $content)
-                <div class="col-12">
+                <div class="col-12 col-sm-6 col-lg-4">
                     <div class="content">
                         <div class="content-box">
                             <div class="thumbnail-ratio-wrapper">
