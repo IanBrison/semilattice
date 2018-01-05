@@ -22,6 +22,9 @@
         #next {
             margin-bottom: 25px;
         }
+        #caution {
+            color: red;
+        }
     </style>
 @endsection
 
@@ -36,13 +39,13 @@
             </div>
             <div class="col-12">
                 <h4 class="detail">
-                    実験は料理探しです。
+                    実験は料理探しです。楽しい楽しい料理探しをしてもらいます。ほんとうに大変よろしくお願いします。
                 </h4>
             </div>
         </div>
         <div id="explanation" class="row">
             <div class="col-12">
-                <h3 class="title">
+                <h3 id="caution" class="title">
                     注意事項
                 </h3>
             </div>

@@ -8,8 +8,8 @@
         h3 {
             margin: 8px 8px 8px 0px;
         }
-        a {
-            margin-top: 5px;
+        .exp-group {
+            margin-bottom: 10px;
         }
         .pagination {
             width: fit-content;
@@ -131,7 +131,7 @@
 @section('body')
     <div class="container">
         <div class="row">
-            <div class="col-12">
+            <div class="col-12 exp-group">
                 <h3>探してほしい料理</h3>
                 <div class="target_content">
                     <div class="title">
@@ -139,7 +139,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12 exp-group">
                 <h3>カテゴリ<br><a id="current_category">{{ $category->name }}</a></h3>
                 <div class="list-group">
                 @foreach ($category->childs as $child)
