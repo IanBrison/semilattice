@@ -35,7 +35,7 @@
         .ellipsis {
             overflow: hidden;
             text-overflow: ellipsis;
-            white-space: nowrap;
+            /*white-space: nowrap;*/
             word-wrap: break-word;
         }
 

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\QuizSet;
 use App\Subject;
+use App\TimeTrack;
 use App\Track;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Auth;
@@ -70,7 +72,11 @@ class ExperimentController extends Controller
         }
 
         if ($category_id != 1) {
-            Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_id' => $quiz->id, 'category_id' => $category_id]);
+            Track::create(['subject_id' => Auth::user()->id, 'quiz_id' => $quiz->id, 'category_id' => $category_id]);
+        } else {
+            if (!TimeTrack::where('subject_id', Auth::user()->id)->where('quiz_id', $quiz->id)->exists()) {
+                TimeTrack::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_id' => $quiz->id, 'start_time' => Carbon::now()]);
+            }
         }
 
         $category = Category::with('childs')->find($category_id);
@@ -99,6 +105,10 @@ class ExperimentController extends Controller
 
         if ($content_id == 0) $content_id = null;
         Track::create(['subject_id' => Auth::user()->id, 'quiz_id' => $quiz->id, 'content_id' => $content_id]);
+
+        $time_track = TimeTrack::where('subject_id', Auth::user()->id)->where('quiz_id', $quiz->id)->first();
+        $time_track->end_time = Carbon::now();
+        $time_track->save();
 
         if ($quiz_num + 1 > $quiz_sets->count() * 2) {
             return redirect(action('ExperimentController@getThankYou'));

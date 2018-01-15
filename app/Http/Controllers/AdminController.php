@@ -26,7 +26,7 @@ class AdminController extends Controller
 
     public function getSubjectResults()
     {
-        $subjects = Subject::with('tracks')->get();
+        $subjects = Subject::with('tracks')->with('time_tracks')->get();
         $quizzes = Quiz::orderBy('id')->get();
         return view('admin_results', ['subjects' => $subjects, 'quizzes' => $quizzes]);
     }

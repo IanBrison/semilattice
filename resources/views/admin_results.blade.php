@@ -52,6 +52,7 @@
                                     <span class="track_content_bad">諦めた</span>
                                 @endif
                             @endforeach
+                            <span class="time_track">時間:{{ $subject->time_tracks()->where('quiz_id', $quiz->id)->first()->time }}秒</span>
                         </div>
                     @endforeach
                 </div>

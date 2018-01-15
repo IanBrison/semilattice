@@ -16,4 +16,9 @@ class Subject extends Authenticatable
     {
         return $this->hasMany('App\Track', 'subject_id');
     }
+
+    public function time_tracks()
+    {
+        return $this->hasMany('App\TimeTrack', 'subject_id');
+    }
 }
