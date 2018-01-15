@@ -25,6 +25,7 @@ class CreateCategoryConnectionsTable extends Migration
                 ->references('id')
                 ->on('categories')
                 ->onDelete('cascade');
+            $table->integer('type');
             $table->timestamps();
         });
     }

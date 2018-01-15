@@ -13,6 +13,8 @@ Homestead.yaml
 .env
 package-lock.json
 composer.lock
+/app/Console/Commands/rakuten.tsv
+/public/rakuten_images
 
 ### macOS ###
 *.DS_Store

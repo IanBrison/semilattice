@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
-use App\Content;
-use App\Quiz;
+use App\QuizSet;
 use App\Subject;
 use App\Track;
 use Illuminate\Http\Request;
@@ -31,41 +30,81 @@ class ExperimentController extends Controller
         return redirect(action('ExperimentController@getIndex'));
     }
 
-    public function getExperiment($quiz_num, $category_id)
-    {
-        $quizzes = Quiz::orderBy('id')->get();
+    public function getQuiz($quiz_num){
+        $quiz_sets = QuizSet::orderBy('id')->get();
 
-        if ($quiz_num > $quizzes->count()) {
+        $quiz_set_num = ceil($quiz_num / 2);
+        $quiz_a_b = fmod($quiz_num, 2);
+
+        if ($quiz_set_num > $quiz_sets->count()) {
             return redirect(action('ExperimentController@getThankYou'));
         }
 
-        if ($category_id != 1) {
-            Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_id' => $quizzes[$quiz_num - 1]->id, 'category_id' => $category_id]);
+        $quiz = $quiz_sets[$quiz_set_num - 1]->a;
+        $user_group = fmod(Auth::user()->id, 2);
+        if ($user_group == 1 && $quiz_a_b == 0) {
+            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        } else if ($user_group == 0 && $quiz_a_b == 1) {
+            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        }
+        return view('quiz', ['quiz' => $quiz, 'quiz_num' => $quiz_num]);
+    }
+
+    public function getExperiment($quiz_num, $category_id)
+    {
+        $quiz_sets = QuizSet::orderBy('id')->get();
+
+        $quiz_set_num = ceil($quiz_num / 2);
+        $quiz_a_b = fmod($quiz_num, 2);
+
+        if ($quiz_set_num > $quiz_sets->count()) {
+            return redirect(action('ExperimentController@getThankYou'));
         }
 
-        $target_content = $quizzes[$quiz_num - 1]->content;
-        $category = Category::find($category_id);
+        $quiz = $quiz_sets[$quiz_set_num - 1]->a;
+        $user_group = fmod(Auth::user()->id, 2);
+        if ($user_group == 1 && $quiz_a_b == 0) {
+            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        } else if ($user_group == 0 && $quiz_a_b == 1) {
+            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        }
+
+        if ($category_id != 1) {
+            Track::firstOrCreate(['subject_id' => Auth::user()->id, 'quiz_id' => $quiz->id, 'category_id' => $category_id]);
+        }
+
+        $category = Category::with('childs')->find($category_id);
         $contents = $category->contents()->paginate(12);
 
-        return view('exp', ['quiz' => $quizzes[$quiz_num - 1],
+        return view('exp', ['quiz' => $quiz,
             'quiz_num' => $quiz_num,
-            'target_content' => $target_content,
             'category' => $category,
             'contents' => $contents]);
     }
 
     public function getResult($quiz_num, $content_id)
     {
-        $quizzes = Quiz::orderBy('id')->get();
+        $quiz_sets = QuizSet::orderBy('id')->get();
+
+        $quiz_set_num = ceil($quiz_num / 2);
+        $quiz_a_b = fmod($quiz_num, 2);
+
+        $quiz = $quiz_sets[$quiz_set_num - 1]->a;
+        $user_group = fmod(Auth::user()->id, 2);
+        if ($user_group == 1 && $quiz_a_b == 0) {
+            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        } else if ($user_group == 0 && $quiz_a_b == 1) {
+            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        }
 
         if ($content_id == 0) $content_id = null;
-        Track::create(['subject_id' => Auth::user()->id, 'quiz_id' => $quizzes[$quiz_num - 1]->id, 'content_id' => $content_id]);
+        Track::create(['subject_id' => Auth::user()->id, 'quiz_id' => $quiz->id, 'content_id' => $content_id]);
 
-        if ($quiz_num > $quizzes->count()) {
+        if ($quiz_num + 1 > $quiz_sets->count() * 2) {
             return redirect(action('ExperimentController@getThankYou'));
         }
 
-        return redirect(action('ExperimentController@getExperiment', [$quiz_num + 1, 1]));
+        return redirect(action('ExperimentController@getQuiz', [$quiz_num + 1]));
     }
 
     public function getThankYou()

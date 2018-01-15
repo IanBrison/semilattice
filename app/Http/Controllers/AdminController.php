@@ -8,6 +8,7 @@ use App\CategoryLink;
 use App\Content;
 use App\Page;
 use App\Quiz;
+use App\QuizSet;
 use App\Subject;
 use Illuminate\Http\Request;
 
@@ -38,8 +39,8 @@ class AdminController extends Controller
 
     public function getQuizzes()
     {
-        $quizzes = Quiz::orderBy('id')->get();
-        return view('admin_quizzes', ['quizzes' => $quizzes]);
+        $quiz_sets = QuizSet::orderBy('id')->get();
+        return view('admin_quizzes', ['quiz_sets' => $quiz_sets]);
     }
 
     public function getSearchQuizzes($keyword)
@@ -48,18 +49,22 @@ class AdminController extends Controller
         return response()->json($search_contents);
     }
 
-    public function postCreateQuiz(Request $request)
+    public function postCreateQuizSet(Request $request)
     {
-        $quiz = Quiz::create(['content_id' => $request->input('content_id')]);
-        $quiz->types()->sync($request->input('types'));
+        $quiz_a = Quiz::create(['description' => $request->input('description_a'), 'img_url' => $request->input('img_url_a')]);
+        $quiz_b = Quiz::create(['description' => $request->input('description_b'), 'img_url' => $request->input('img_url_b')]);
+
+        QuizSet::create(['quiz_a_id' => $quiz_a->id, 'quiz_b_id' => $quiz_b->id]);
 
         return redirect(action('AdminController@getQuizzes'));
     }
 
-    public function postDeleteQuiz(Request $request)
+    public function postDeleteQuizSet(Request $request)
     {
-        $quiz = Quiz::findOrFail($request->input('quiz_id'));
-        $quiz->delete();
+        $quiz_set = QuizSet::findOrFail($request->input('quiz_id'));
+        $quiz_set->a->delete();
+        $quiz_set->b->delete();
+        $quiz_set->delete();
 
         return redirect(action('AdminController@getQuizzes'));
     }

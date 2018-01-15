@@ -26,12 +26,15 @@
         .track_content_bad {
             color: red;
         }
+        h2 a {
+            font-size: 15px;
+        }
     </style>
 @endsection
 
 @section('body')
     <div class="container">
-        <h2>みんなの結果</h2>
+        <h2>みんなの結果 <a href="{{ action('AdminController@getIndex') }}">adminトップへ戻る</a></h2>
         <div>
             @foreach($subjects as $subject)
                 <div class="subject-div row">
@@ -41,18 +44,10 @@
                             問{{ $index + 1 }}
                             @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
                                 @if ($track->category_id != null)
-                                    @if ($track->category->contents()->where('contents.id', $quiz->content_id)->exists())
-                                        <span class="track_category_good">{{ $track->category_id }}</span>
-                                    @else
-                                        <span class="track_category_bad">{{ $track->category_id }}</span>
-                                    @endif
+                                    <span class="track_category_good">{{ $track->category_id }}: {{ $track->category->name }}</span>
                                     ->
                                 @elseif ($track->content_id != null)
-                                    @if ($track->content_id == $quiz->content_id)
-                                        <span class="track_content_good">{{ $track->content_id }}</span>
-                                    @else
-                                        <span class="track_content_bad">{{ $track->content_id }}</span>
-                                    @endif
+                                    <span class="track_content_good">{{ $track->content_id }}: {{ $track->content->name }}</span>
                                 @else
                                     <span class="track_content_bad">諦めた</span>
                                 @endif

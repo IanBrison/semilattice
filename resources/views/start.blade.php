@@ -57,7 +57,7 @@
             </div>
         </div>
         <div id="next" class="text-right">
-            <a href="{{ action('ExperimentController@getExperiment', ['1', '1']) }}">実験スタート</a>
+            <a href="{{ action('ExperimentController@getQuiz', ['1']) }}">実験スタート</a>
         </div>
     </div>
 @endsection

@@ -135,7 +135,7 @@
                 <h3>探してほしい料理</h3>
                 <div class="target_content">
                     <div class="title">
-                        <p class="content-title ellipsis">{{ $target_content->name }}</p>
+                        <p class="content-title ellipsis">{{ $quiz->description }}</p>
                     </div>
                 </div>
             </div>
@@ -148,7 +148,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <h3>コンテンツ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">見つからないので次に行く</a></h3>
+                <h3>レシピ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">探したいものが見つからないく</a></h3>
             </div>
             @foreach ($contents as $content)
                 <div class="col-12 col-sm-6 col-lg-4">
@@ -157,7 +157,7 @@
                             <div class="thumbnail-ratio-wrapper">
                                 <div class="thumbnail-size-wrapper">
                                     <div class="content-thumbnail">
-                                        <img class="content-image thumbnail" src="/no_image.png">
+                                        <img class="content-image thumbnail" src="{{ '/rakuten_images/' . $content->img_url }}">
                                     </div>
                                 </div>
                             </div>

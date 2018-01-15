@@ -15,11 +15,8 @@ class CreateQuizzesTable extends Migration
     {
         Schema::create('quizzes', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('content_id');
-            $table->foreign('content_id')
-                ->references('id')
-                ->on('contents')
-                ->onDelete('cascade');
+            $table->text('description');
+            $table->string('img_url');
             $table->timestamps();
         });
     }

@@ -20,8 +20,8 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/results', 'AdminController@getSubjectResults');
     Route::get('/quizzes', 'AdminController@getQuizzes');
     Route::get('/quizzes/search/{keyword}', 'AdminController@getSearchQuizzes');
-    Route::post('/quiz/delete', 'AdminController@postCreateQuiz');
-    Route::post('/quiz/create', 'AdminController@postDeleteQuiz');
+    Route::post('/quiz/create', 'AdminController@postCreateQuizSet');
+    Route::post('/quiz/delete', 'AdminController@postDeleteQuizSet');
     Route::post('/category', 'AdminController@createCategory');
     Route::post('/connection', 'AdminController@createConnection');
     Route::post('/content', 'AdminController@createContent');
@@ -31,6 +31,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
 });
 Route::group(['prefix' => '/exp', 'middleware' => 'auth:subject'], function () {
     Route::get('/', 'ExperimentController@getIndex');
+    Route::get('/{quiz_num}', 'ExperimentController@getQuiz');
     Route::get('/{quiz_num}/{category_id}', 'ExperimentController@getExperiment');
     Route::get('/result/{quiz_num}/{content_id}', 'ExperimentController@getResult');
 });

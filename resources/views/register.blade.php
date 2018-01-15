@@ -27,7 +27,7 @@
                     <div class="row">
                         <label for="input_name" class="col-4 col-sm-2 control-label">名前：</label>
                         <div class="col-8 col-sm-8">
-                            <input type="text" class="form-control" name="name" placeholder="例）同志社太郎"/>
+                            <input type="text" class="form-control" name="name" placeholder="例）同志社太郎" required/>
                         </div>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                     <div class="row">
                         <label for="input_password" class="col-4 col-sm-2 control-label">学籍番号：</label>
                         <div class="col-8 col-sm-8">
-                            <input type="text" class="form-control" name="uni_id" placeholder="例）1G140000"/>
+                            <input type="text" class="form-control" name="uni_id" placeholder="例）1G140000" required/>
                             <small class="form-text text-muted">同志社大学の学生以外の方は自由に埋めてください</small>
                         </div>
                     </div>
