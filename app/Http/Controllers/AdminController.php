@@ -72,7 +72,7 @@ class AdminController extends Controller
     public function getCategories()
     {
         $category_layers = collect();
-        $category_layers[0] = Category::where('type', 0)->get();
+        $category_layers[0] = Category::where('id', 1)->get();
 
         $layer_num = 0;
         while (isset($category_layers[$layer_num])) {
@@ -89,7 +89,7 @@ class AdminController extends Controller
             $layer_num++;
         }
 
-        $contents = collect(Content::all());
+        /*$contents = collect(Content::all());
         foreach ($contents as $content) {
             $last_categories = $content->categories;
             $categories = $last_categories->pluck('id');
@@ -102,7 +102,8 @@ class AdminController extends Controller
                 }
             }
             $content->last_categories = $last_categories;
-        }
+        }*/
+        $contents = collect();
 
         return view('admin_categories', ['category_layers' => $category_layers, 'contents' => $contents]);
     }

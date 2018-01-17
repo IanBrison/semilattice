@@ -173,3 +173,16 @@
         </div>
     </div>
 @endsection
+
+@section('script')
+    <script>
+        $(function(){
+            $('.content-link').click(function(){
+                if(!confirm('こちらの料理で確定になりますがよろしいですか？')) {
+                    return false;
+                }
+            });
+
+        });
+    </script>
+@endsection

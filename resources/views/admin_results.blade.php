@@ -40,6 +40,7 @@
                 <div class="subject-div row">
                     <h3 class="subject-name col-12">名前:{{ $subject->name }} 学籍番号:{{ $subject->uni_id }}</h3>
                     @foreach ($quizzes as $index => $quiz)
+                        @if($subject->time_tracks()->where('quiz_id', $quiz->id)->exists())
                         <div class="col-12">
                             問{{ $index + 1 }}
                             @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
@@ -54,6 +55,7 @@
                             @endforeach
                             <span class="time_track">時間:{{ $subject->time_tracks()->where('quiz_id', $quiz->id)->first()->time }}秒</span>
                         </div>
+                        @endif
                     @endforeach
                 </div>
             @endforeach

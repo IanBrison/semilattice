@@ -25,7 +25,7 @@
     <div id="app" class="container">
         <h2>クイズ一覧 <a href="{{ action('AdminController@getIndex') }}">adminトップへ戻る</a></h2>
         <div class="row">
-            <div class="col-8 row">
+            <div class="col-8 row" style="height: 100%;">
             @foreach($quiz_sets as $index => $quiz_set)
                 <div class="col-12 row quiz-div">
                     <div class="col-12">
@@ -65,7 +65,7 @@
                 </div>
             @endforeach
             </div>
-            <div class="col-4 row">
+            <div class="col-4 row" style="height: 100%;">
                 <div class="col-12">
                     <h4>新しいクイズ</h4>
                     <form method="POST" action="{{ action('AdminController@postCreateQuizSet') }}">

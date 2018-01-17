@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 use Auth;
+use Illuminate\Support\Facades\Cache;
 
 class ExperimentController extends Controller
 {
@@ -52,7 +53,7 @@ class ExperimentController extends Controller
         return view('quiz', ['quiz' => $quiz, 'quiz_num' => $quiz_num]);
     }
 
-    public function getExperiment($quiz_num, $category_id)
+    public function getExperiment($quiz_num, $category_id, Request $request)
     {
         $quiz_sets = QuizSet::orderBy('id')->get();
 
@@ -79,8 +80,13 @@ class ExperimentController extends Controller
             }
         }
 
-        $category = Category::with('childs')->find($category_id);
-        $contents = $category->contents()->paginate(12);
+        $category = Cache::rememberForever('category'.$category_id, function() use ($category_id){
+            return Category::with('childs')->find($category_id);
+        });
+        $page_num = $request->input('page') != null ? $request->input('page') : 1;
+        $contents = Cache::rememberForever('content'.$category_id.'page'.$page_num, function() use ($category){
+            return $category->contents()->paginate(12);
+        });
 
         return view('exp', ['quiz' => $quiz,
             'quiz_num' => $quiz_num,
