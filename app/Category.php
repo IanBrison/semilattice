@@ -38,4 +38,14 @@ class Category extends Model
     {
         return $this->belongsToMany('App\Type', 'category_types', 'category_id', 'type_id');
     }
+
+    public function getParentConnectionToArrayAttribute()
+    {
+        return "[" . $this->parent_connections->pluck('parent_category_id')->implode(', ') . "]";
+    }
+
+    public function getChildConnectionToArrayAttribute()
+    {
+        return "[" . $this->child_connections->pluck('child_category_id')->implode(', ') . "]";
+    }
 }

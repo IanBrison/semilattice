@@ -22,10 +22,6 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
     Route::get('/quizzes/search/{keyword}', 'AdminController@getSearchQuizzes');
     Route::post('/quiz/create', 'AdminController@postCreateQuizSet');
     Route::post('/quiz/delete', 'AdminController@postDeleteQuizSet');
-    Route::post('/category', 'AdminController@createCategory');
-    Route::post('/connection', 'AdminController@createConnection');
-    Route::post('/content', 'AdminController@createContent');
-    Route::post('/category_content', 'AdminController@createCategoryContent');
     Route::get('/category_vue', 'AdminController@getCategoryVue');
     Route::get('/category/{id}', 'AdminController@getChilds');
 });
