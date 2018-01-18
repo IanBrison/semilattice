@@ -28,7 +28,7 @@
 
 @section('body')
     <div class="container">
-        <h2>実験{{ $quiz_num }}</h2>
+        <h2>実験{{ $quiz_set_num }} - {{ $a_b }}</h2>
         <div class="explanation">
             <h4 class="detail">
                 {{ $quiz->description }}

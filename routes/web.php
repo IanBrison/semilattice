@@ -27,11 +27,12 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
 });
 Route::group(['prefix' => '/exp', 'middleware' => 'auth:subject'], function () {
     Route::get('/', 'ExperimentController@getIndex');
-    Route::get('/{quiz_num}', 'ExperimentController@getQuiz');
-    Route::get('/{quiz_num}/{category_id}', 'ExperimentController@getExperiment');
+    Route::get('/quiz/{quiz_num}', 'ExperimentController@getQuiz');
+    Route::get('/quiz/{quiz_num}/{category_id}', 'ExperimentController@getExperiment');
     Route::get('/result/{quiz_num}/{content_id}', 'ExperimentController@getResult');
+    Route::get('/questionnaire', 'ExperimentController@getQuestionnaire');
+    Route::post('/questionnaire', 'ExperimentController@postQuestionnaire');
 });
 Route::get('/thank_you', 'ExperimentController@getThankYou');
 Route::get('/login', 'Auth\LoginController@getLogin');
 Route::post('/login', 'Auth\LoginController@login');
-Route::get('/questionnaire', 'ExperimentController@getQuestionnaire');

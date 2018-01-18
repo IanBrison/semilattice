@@ -132,7 +132,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12 exp-group">
-                <h3>探してほしい料理</h3>
+                <h3>お題</h3>
                 <div class="target_content">
                     <div class="title">
                         <p class="content-title ellipsis">{{ $quiz->description }}</p>
@@ -155,7 +155,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <h3>レシピ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">探したいものがどうしても見つからない</a></h3>
+                <h3>レシピ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">どうしても見つからない</a></h3>
             </div>
             @foreach ($contents as $content)
                 <div class="col-12 col-sm-6 col-lg-4">

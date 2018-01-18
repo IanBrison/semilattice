@@ -46,6 +46,11 @@
                             女性
                         @endif
                          料理の得意度:{{ $subject->experience }}
+                         アンケート:(
+                        @if($subject->questionnaire != null)
+                            {{ $subject->questionnaire->question1 }}
+                        @endif
+                        )
                     </h3>
                     @foreach ($quizzes as $index => $quiz)
                         @if($subject->time_tracks()->where('quiz_id', $quiz->id)->exists())

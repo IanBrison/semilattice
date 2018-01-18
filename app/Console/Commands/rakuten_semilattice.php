@@ -106,26 +106,26 @@ class rakuten_semilattice extends Command
                     }
                 }
             }
-            if ($semilattice_group->has(1) && $semilattice_group[1]->count() > 1) {
-                $top_semilattices->push(array('name' => $name, 'ids' => $semilattice_group[1]));
-            }
+//            if ($semilattice_group->has(1) && $semilattice_group[1]->count() > 1) {
+//                $top_semilattices->push(array('name' => $name, 'ids' => $semilattice_group[1]));
+//            }
         }
-        echo $top_semilattices->count() . "\n";
-        foreach ($top_semilattices as $index => $top_semilattice) {
-            echo $index . ' ';
-            $create_categories->push(array('name' => $top_semilattice['name']));
-            $create_semilattices->push(array('parent_category_id' => 1, 'child_category_id' => $new_category_num, 'type' => 2, 'semilattice_name' => NULL));
-            foreach ($top_semilattice['ids'] as $semilattice_id) {
-                $semi_cat = $categories->firstWhere('id', $semilattice_id);
-                if ($semi_cat == null) continue;
-                $semi_contents_ids = $semi_cat->contents()->select(['contents.id'])->get()->pluck('id')->all();
-                foreach ($semi_contents_ids as $semi_contents_id) {
-                    $create_category_contents->push(array('category_id' => $new_category_num, 'content_id' => $semi_contents_id));
-                }
-                $create_semilattices->push(array('parent_category_id' => $new_category_num, 'child_category_id' => $semilattice_id, 'type' => 2, 'semilattice_name' => $parent_names[$semilattice_id]));
-            }
-            $new_category_num++;
-        }
+//        echo $top_semilattices->count() . "\n";
+//        foreach ($top_semilattices as $index => $top_semilattice) {
+//            echo $index . ' ';
+//            $create_categories->push(array('name' => $top_semilattice['name']));
+//            $create_semilattices->push(array('parent_category_id' => 1, 'child_category_id' => $new_category_num, 'type' => 2, 'semilattice_name' => NULL));
+//            foreach ($top_semilattice['ids'] as $semilattice_id) {
+//                $semi_cat = $categories->firstWhere('id', $semilattice_id);
+//                if ($semi_cat == null) continue;
+//                $semi_contents_ids = $semi_cat->contents()->select(['contents.id'])->get()->pluck('id')->all();
+//                foreach ($semi_contents_ids as $semi_contents_id) {
+//                    $create_category_contents->push(array('category_id' => $new_category_num, 'content_id' => $semi_contents_id));
+//                }
+//                $create_semilattices->push(array('parent_category_id' => $new_category_num, 'child_category_id' => $semilattice_id, 'type' => 2, 'semilattice_name' => $parent_names[$semilattice_id]));
+//            }
+//            $new_category_num++;
+//        }
         foreach($create_categories->chunk(1000) as $index => $item) {
             echo $index . ' ';
             Category::insert($item->toArray());

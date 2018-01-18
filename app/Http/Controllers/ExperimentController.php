@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Questionnaire;
 use App\QuizSet;
 use App\Subject;
 use App\TimeTrack;
@@ -47,10 +48,12 @@ class ExperimentController extends Controller
         }
 
         $quiz = $quiz_sets[$quiz_set_num - 1]->a;
+        $a_b = 'a';
         if ($quiz_a_b == 0) {
             $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+            $a_b = 'b';
         }
-        return view('quiz', ['quiz' => $quiz, 'quiz_num' => $quiz_num]);
+        return view('quiz', ['quiz' => $quiz, 'quiz_set_num' => $quiz_set_num, 'a_b' => $a_b, 'quiz_num' => $quiz_num]);
     }
 
     public function getExperiment($quiz_num, $category_id, Request $request)
@@ -92,8 +95,6 @@ class ExperimentController extends Controller
             return $category->childs()->wherePivot('type', $category_type)->withPivot('semilattice_name')->get();
         });
 
-        //return $childs->first()->pivot->semilattice_name;
-
         return view('exp', ['quiz' => $quiz,
             'quiz_num' => $quiz_num,
             'category' => $category,
@@ -130,6 +131,15 @@ class ExperimentController extends Controller
     public function getQuestionnaire()
     {
         return view('questionnaire');
+    }
+
+    public function postQuestionnaire(Request $request)
+    {
+        Questionnaire::create(['subject_id' => Auth::user()->id,
+            'question1' => $request->input('question1'),
+            'question2' => $request->input('question2'),
+            'question3' => $request->input('question3')]);
+        return redirect(action('ExperimentController@getThankYou'));
     }
 
     public function getThankYou()

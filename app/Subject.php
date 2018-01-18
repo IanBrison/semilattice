@@ -21,4 +21,9 @@ class Subject extends Authenticatable
     {
         return $this->hasMany('App\TimeTrack', 'subject_id');
     }
+
+    public function questionnaire()
+    {
+        return $this->hasOne('App\Questionnaire', 'subject_id');
+    }
 }

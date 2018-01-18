@@ -9,7 +9,7 @@
             font-size: 15px;
         }
         h5 {
-            margin: 8px 8px 8px 0px;
+            margin: 8px 0px 0px 0px;
         }
 
         .form-group {
@@ -26,7 +26,19 @@
         .radio-div {
         }
         .radio-input {
-            margin-left: 40%;
+        }
+        .no-padding-col-12 {
+            padding-left: 0px;
+            padding-right: 0px;
+        }
+        .big-question {
+            margin-bottom: 10px;
+        }
+        .small-question {
+            margin-top: 5px;
+        }
+        .no-margin-row {
+            margin: 0px;
         }
     </style>
 @endsection
@@ -36,32 +48,67 @@
         <h2>アンケート</h2>
         <div>
             <h4>
-                こんにちは、社会情報学研究室のブライソンです。今日は実験に参加してくれてどうもありがとう！
-                これから３つのこと（あと謝礼の受け取りも！）をしてもらいます。想定している総時間は20~40分です。
+                お疲れ様でした。以上で実験は終了です。最後にアンケートをお願いします。アンケートは主観評価に使われるものなので、思ったままの考えを記してください。
             </h4>
         </div>
-        <form action="{{ action('ExperimentController@postRegister') }}" method="post">
-            <div class="row" style="margin: 0px;">
+        <form action="{{ action('ExperimentController@postQuestionnaire') }}" method="post">
+            <div class="row no-margin-row">
                 {{ csrf_field() }}
-                <h5>実験として</h5>
-                <div>
-                    aのカテゴリは、カテゴリとして使いやすい・使いづらいと感じたり、構造がわかりやすい・わかりづらいと感じることはありましたか。
+                <h5>「実験」</h5>
+                <div class="col-12 no-padding-col-12 big-question">
+                    実験中、a問とb問ではカテゴリが少し違うことに気が付いたかもしれません。それをふまえたうえでお答えください。
                 </div>
-
-                <div class="form-group col-12">
-                    <div class="row">
-                        <label for="input_password" class="col-4 col-sm-2 control-label">学籍番号：</label>
-                        <div class="col-8 col-sm-8">
-                            <input type="text" class="form-control" name="uni_id" placeholder="例）1G140000" required/>
-                            <small class="form-text text-muted">同志社大学の学生以外の方は自由に埋めてください</small>
-                        </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (1) aのカテゴリは、カテゴリとして特別使いやすい・使いづらいと感じることはありましたか。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question1" value="5"> とても使いやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question1" value="4"> 少し使いやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question1" value="3" checked> とくになにも感じなかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question1" value="2"> 少し使いづらかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question1" value="1"> とても使いづらかった
                     </div>
                 </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (2) bのカテゴリは、カテゴリとして特別使いやすい・使いづらいと感じることはありましたか。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question2" value="5"> とても使いやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question2" value="4"> 少し使いやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question2" value="3" checked> とくになにも感じなかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question2" value="2"> 少し使いづらかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question2" value="1"> とても使いづらかった
+                    </div>
+                </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (3) カテゴリについて思ったことがあればお願いします。
+                </div>
+                <div class="col-12">
+                    <textarea style="width: 100%;" name="question3"></textarea>
+                </div>
 
                 <div class="form-group col-12">
                     <div class="row">
-                        <div class="offset-6 col-6 offset-sm-7 col-sm-3">
-                            <button type="submit" class="btn btn-primary btn-block">登録して進む</button>
+                        <div class="offset-6 col-6 offset-sm-9 col-sm-3">
+                            <button type="submit" class="btn btn-primary btn-block">回答完了</button>
                         </div>
                     </div>
                 </div>
