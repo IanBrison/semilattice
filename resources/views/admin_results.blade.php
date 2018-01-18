@@ -38,11 +38,24 @@
         <div>
             @foreach($subjects as $subject)
                 <div class="subject-div row">
-                    <h3 class="subject-name col-12">名前:{{ $subject->name }} 学籍番号:{{ $subject->uni_id }}</h3>
+                    <h3 class="subject-name col-12">名前:{{ $subject->name }} 学籍番号:{{ $subject->uni_id }}
+                    性別:
+                        @if($subject->sex == 1)
+                            男性
+                        @else
+                            女性
+                        @endif
+                         料理の得意度:{{ $subject->experience }}
+                    </h3>
                     @foreach ($quizzes as $index => $quiz)
                         @if($subject->time_tracks()->where('quiz_id', $quiz->id)->exists())
                         <div class="col-12">
                             問{{ $index + 1 }}
+                            @if (fmod($subject->id + $index, 2) == 0)
+                                (木)
+                            @else
+                                (セ)
+                            @endif
                             @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
                                 @if ($track->category_id != null)
                                     <span class="track_category_good">{{ $track->category_id }}: {{ $track->category->name }}</span>

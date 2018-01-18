@@ -34,3 +34,4 @@ Route::group(['prefix' => '/exp', 'middleware' => 'auth:subject'], function () {
 Route::get('/thank_you', 'ExperimentController@getThankYou');
 Route::get('/login', 'Auth\LoginController@getLogin');
 Route::post('/login', 'Auth\LoginController@login');
+Route::get('/questionnaire', 'ExperimentController@getQuestionnaire');

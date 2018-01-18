@@ -142,13 +142,20 @@
             <div class="col-12 exp-group">
                 <h3>カテゴリ<br><a id="current_category">{{ $category->name }}</a></h3>
                 <div class="list-group">
-                @foreach ($category->childs as $child)
-                    <a class="list-group-item list-group-item-activate" href="{{ action('ExperimentController@getExperiment', [$quiz_num, $child->id]) }}">{{ $child->name }}</a>
+                    <div class="row" style="margin: 0px;">
+                @foreach ($childs as $child)
+                    <a class="list-group-item list-group-item-activate col-6 col-sm-4 col-lg-3" href="{{ action('ExperimentController@getExperiment', [$quiz_num, $child->id]) }}">
+                        {{ $child->name }}
+                        @if($child->pivot->semilattice_name != null)
+                            （{{ $child->pivot->semilattice_name }}）
+                        @endif
+                    </a>
                 @endforeach
+                    </div>
                 </div>
             </div>
             <div class="col-12">
-                <h3>レシピ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">探したいものが見つからないく</a></h3>
+                <h3>レシピ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">探したいものがどうしても見つからない</a></h3>
             </div>
             @foreach ($contents as $content)
                 <div class="col-12 col-sm-6 col-lg-4">

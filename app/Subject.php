@@ -10,7 +10,7 @@ class Subject extends Authenticatable
     use Notifiable;
 
     protected $table = 'subjects';
-    protected $fillable = ['name', 'uni_id'];
+    protected $guarded = ['id'];
 
     public function tracks()
     {

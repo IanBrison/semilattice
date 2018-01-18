@@ -28,7 +28,10 @@ class ExperimentController extends Controller
 
     public function postRegister(Request $request)
     {
-        $subject = Subject::create(['name' => $request->input('name'), 'uni_id' => $request->input('uni_id')]);
+        $subject = Subject::create(['name' => $request->input('name'),
+            'uni_id' => $request->input('uni_id'),
+            'sex' => $request->input('sex'),
+            'experience' => $request->input('experience')]);
         Auth::login($subject);
         return redirect(action('ExperimentController@getIndex'));
     }
@@ -40,14 +43,11 @@ class ExperimentController extends Controller
         $quiz_a_b = fmod($quiz_num, 2);
 
         if ($quiz_set_num > $quiz_sets->count()) {
-            return redirect(action('ExperimentController@getThankYou'));
+            return redirect(action('ExperimentController@getQuestionnaire'));
         }
 
         $quiz = $quiz_sets[$quiz_set_num - 1]->a;
-        $user_group = fmod(Auth::user()->id, 2);
-        if ($user_group == 1 && $quiz_a_b == 0) {
-            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
-        } else if ($user_group == 0 && $quiz_a_b == 1) {
+        if ($quiz_a_b == 0) {
             $quiz = $quiz_sets[$quiz_set_num - 1]->b;
         }
         return view('quiz', ['quiz' => $quiz, 'quiz_num' => $quiz_num]);
@@ -61,15 +61,17 @@ class ExperimentController extends Controller
         $quiz_a_b = fmod($quiz_num, 2);
 
         if ($quiz_set_num > $quiz_sets->count()) {
-            return redirect(action('ExperimentController@getThankYou'));
+            return redirect(action('ExperimentController@getQuestionnaire'));
         }
 
-        $quiz = $quiz_sets[$quiz_set_num - 1]->a;
         $user_group = fmod(Auth::user()->id, 2);
-        if ($user_group == 1 && $quiz_a_b == 0) {
+        $quiz = $quiz_sets[$quiz_set_num - 1]->a;
+        if ($quiz_a_b == 0) {
             $quiz = $quiz_sets[$quiz_set_num - 1]->b;
-        } else if ($user_group == 0 && $quiz_a_b == 1) {
-            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
+        }
+        $category_type = 1;
+        if (fmod($user_group + $quiz_a_b, 2) == 0) {
+            $category_type = 2;
         }
 
         if ($category_id != 1) {
@@ -80,18 +82,23 @@ class ExperimentController extends Controller
             }
         }
 
-        $category = Cache::rememberForever('category'.$category_id, function() use ($category_id){
-            return Category::with('childs')->find($category_id);
-        });
+        $category = Category::find($category_id);
         $page_num = $request->input('page') != null ? $request->input('page') : 1;
         $contents = Cache::rememberForever('content'.$category_id.'page'.$page_num, function() use ($category){
             return $category->contents()->paginate(12);
         });
 
+        $childs = Cache::rememberForever('childs'.$category_id.'category_type'.$category_type, function() use ($category, $category_type){
+            return $category->childs()->wherePivot('type', $category_type)->withPivot('semilattice_name')->get();
+        });
+
+        //return $childs->first()->pivot->semilattice_name;
+
         return view('exp', ['quiz' => $quiz,
             'quiz_num' => $quiz_num,
             'category' => $category,
-            'contents' => $contents]);
+            'contents' => $contents,
+            'childs' => $childs]);
     }
 
     public function getResult($quiz_num, $content_id)
@@ -102,10 +109,7 @@ class ExperimentController extends Controller
         $quiz_a_b = fmod($quiz_num, 2);
 
         $quiz = $quiz_sets[$quiz_set_num - 1]->a;
-        $user_group = fmod(Auth::user()->id, 2);
-        if ($user_group == 1 && $quiz_a_b == 0) {
-            $quiz = $quiz_sets[$quiz_set_num - 1]->b;
-        } else if ($user_group == 0 && $quiz_a_b == 1) {
+        if ($quiz_a_b == 0) {
             $quiz = $quiz_sets[$quiz_set_num - 1]->b;
         }
 
@@ -117,10 +121,15 @@ class ExperimentController extends Controller
         $time_track->save();
 
         if ($quiz_num + 1 > $quiz_sets->count() * 2) {
-            return redirect(action('ExperimentController@getThankYou'));
+            return redirect(action('ExperimentController@getQuestionnaire'));
         }
 
         return redirect(action('ExperimentController@getQuiz', [$quiz_num + 1]));
+    }
+
+    public function getQuestionnaire()
+    {
+        return view('questionnaire');
     }
 
     public function getThankYou()

@@ -9,6 +9,8 @@ class Category extends Model
     protected $table = 'categories';
     protected $fillable = ['name', 'type'];
 
+    public $grand_parent;
+
     public function childs()
     {
         return $this->belongsToMany('App\Category', 'category_connections', 'parent_category_id', 'child_category_id');
@@ -32,11 +34,6 @@ class Category extends Model
     public function contents()
     {
         return $this->belongsToMany('App\Content', 'category_contents', 'category_id', 'content_id');
-    }
-
-    public function types()
-    {
-        return $this->belongsToMany('App\Type', 'category_types', 'category_id', 'type_id');
     }
 
     public function getParentConnectionToArrayAttribute()

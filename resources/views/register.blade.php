@@ -14,6 +14,9 @@
             text-align: right;
             padding: 7px;
         }
+        .check-label {
+            margin-bottom: 0px;
+        }
     </style>
 @endsection
 
@@ -38,6 +41,64 @@
                         <div class="col-8 col-sm-8">
                             <input type="text" class="form-control" name="uni_id" placeholder="例）1G140000" required/>
                             <small class="form-text text-muted">同志社大学の学生以外の方は自由に埋めてください</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
+                    <div class="row">
+                        <label class="col-4 col-sm-2 control-label">性別：</label>
+                        <div class="col-8 col-sm-8">
+                            <div>
+                                <input class="" type="radio" name="sex" id="gridRadios1" value="1" checked>
+                                <label class="check-label" for="gridRadios1">
+                                    男性
+                                </label>
+                            </div>
+                            <div>
+                                <input class="" type="radio" name="sex" id="gridRadios2" value="2">
+                                <label class="check-label" for="gridRadios2">
+                                    女性
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-12">
+                    <div class="row">
+                        <label class="col-4 col-sm-2 control-label">料理経験</label>
+                        <div class="col-8 col-sm-8">
+                            <div>
+                                <input class="" type="radio" name="experience" id="gridRadios3" value="1" checked>
+                                <label class="check-label" for="gridRadios3">
+                                    全くできない
+                                </label>
+                            </div>
+                            <div>
+                                <input class="" type="radio" name="experience" id="gridRadios4" value="2">
+                                <label class="check-label" for="gridRadios4">
+                                    少しできる
+                                </label>
+                            </div>
+                            <div>
+                                <input class="" type="radio" name="experience" id="gridRadios5" value="3">
+                                <label class="check-label" for="gridRadios5">
+                                    できる
+                                </label>
+                            </div>
+                            <div>
+                                <input class="" type="radio" name="experience" id="gridRadios6" value="4">
+                                <label class="check-label" for="gridRadios6">
+                                    そこそこ得意
+                                </label>
+                            </div>
+                            <div>
+                                <input class="" type="radio" name="experience" id="gridRadios7" value="5">
+                                <label class="check-label" for="gridRadios7">
+                                    かなり得意
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
