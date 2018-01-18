@@ -87,7 +87,7 @@ class ExperimentController extends Controller
 
         $category = Category::find($category_id);
         $page_num = $request->input('page') != null ? $request->input('page') : 1;
-        $contents = Cache::rememberForever('content'.$category_id.'page'.$page_num, function() use ($category){
+        $contents = Cache::rememberForever('quiz'.$quiz_num.'content'.$category_id.'page'.$page_num, function() use ($category){
             return $category->contents()->paginate(12);
         });
 
