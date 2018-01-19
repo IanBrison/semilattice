@@ -151,19 +151,19 @@
                 </div>
                 <div class="col-12">
                     <div>
-                        <input type="radio" name="question6" value="5"> Bの方がかなり疲れやすかった
+                        <input type="radio" name="question6" value="5"> Aの方がかなり疲れやすかった
                     </div>
                     <div>
-                        <input type="radio" name="question6" value="4"> Bの方が少し疲れやすかった
+                        <input type="radio" name="question6" value="4"> Aの方が少し疲れやすかった
                     </div>
                     <div>
                         <input type="radio" name="question6" value="3"> どちらも同じだった
                     </div>
                     <div>
-                        <input type="radio" name="question6" value="2"> Aの方が少し疲れやすかった
+                        <input type="radio" name="question6" value="2"> Bの方が少し疲れやすかった
                     </div>
                     <div>
-                        <input type="radio" name="question6" value="1"> Aの方がかなり疲れやすかった
+                        <input type="radio" name="question6" value="1"> Bの方がかなり疲れやすかった
                     </div>
                 </div>
                 <div class="col-12">
@@ -199,19 +199,19 @@
                 </div>
                 <div class="col-12">
                     <div>
-                        <input type="radio" name="question8" value="5"> Aの方がかなり効率よく探せた
+                        <input type="radio" name="question8" value="5"> かなり使いやすかった
                     </div>
                     <div>
-                        <input type="radio" name="question8" value="4"> Aの方が少し効率よく探せた
+                        <input type="radio" name="question8" value="4"> 少し使いやすかった
                     </div>
                     <div>
-                        <input type="radio" name="question8" value="3"> どちらも同じだった
+                        <input type="radio" name="question8" value="3"> とくにどちらでもない
                     </div>
                     <div>
-                        <input type="radio" name="question8" value="2"> Bの方が少し効率よく探せた
+                        <input type="radio" name="question8" value="2"> 少し使いづらかった
                     </div>
                     <div>
-                        <input type="radio" name="question8" value="1"> Bの方がかなり効率よく探せた
+                        <input type="radio" name="question8" value="1"> かなり使いづらかった
                     </div>
                 </div>
                 <div class="col-12">
