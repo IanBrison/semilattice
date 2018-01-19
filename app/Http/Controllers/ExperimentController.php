@@ -48,10 +48,10 @@ class ExperimentController extends Controller
         }
 
         $quiz = $quiz_sets[$quiz_set_num - 1]->a;
-        $a_b = 'a';
+        $a_b = 'A';
         if ($quiz_a_b == 0) {
             $quiz = $quiz_sets[$quiz_set_num - 1]->b;
-            $a_b = 'b';
+            $a_b = 'B';
         }
         return view('quiz', ['quiz' => $quiz, 'quiz_set_num' => $quiz_set_num, 'a_b' => $a_b, 'quiz_num' => $quiz_num]);
     }
@@ -138,7 +138,18 @@ class ExperimentController extends Controller
         Questionnaire::create(['subject_id' => Auth::user()->id,
             'question1' => $request->input('question1'),
             'question2' => $request->input('question2'),
-            'question3' => $request->input('question3')]);
+            'question3' => $request->input('question3'),
+            'question4' => $request->input('question4'),
+            'question4text' => $request->input('question4text'),
+            'question5' => $request->input('question5'),
+            'question5text' => $request->input('question5text'),
+            'question6' => $request->input('question6'),
+            'question6text' => $request->input('question6text'),
+            'question7' => $request->input('question7'),
+            'question7text' => $request->input('question7text'),
+            'question8' => $request->input('question8'),
+            'question8text' => $request->input('question8text')
+        ]);
         return redirect(action('ExperimentController@getThankYou'));
     }
 

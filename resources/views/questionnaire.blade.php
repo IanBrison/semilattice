@@ -35,7 +35,7 @@
             margin-bottom: 10px;
         }
         .small-question {
-            margin-top: 5px;
+            margin-top: 15px;
         }
         .no-margin-row {
             margin: 0px;
@@ -54,56 +54,170 @@
         <form action="{{ action('ExperimentController@postQuestionnaire') }}" method="post">
             <div class="row no-margin-row">
                 {{ csrf_field() }}
-                <h5>「実験」</h5>
-                <div class="col-12 no-padding-col-12 big-question">
-                    実験中、a問とb問ではカテゴリが少し違うことに気が付いたかもしれません。それをふまえたうえでお答えください。
-                </div>
                 <div class="col-12 no-padding-col-12 small-question">
-                    (1) aのカテゴリは、カテゴリとして特別使いやすい・使いづらいと感じることはありましたか。
+                    (1) 問Aと問Bには違いがありました。違いには気づきましたか。
                 </div>
                 <div class="col-12">
                     <div>
-                        <input type="radio" name="question1" value="5"> とても使いやすかった
+                        <input type="radio" name="question1" value="5"> はっきりと違いを認識していた
                     </div>
                     <div>
-                        <input type="radio" name="question1" value="4"> 少し使いやすかった
+                        <input type="radio" name="question1" value="4"> 違いがあると感じていた
                     </div>
                     <div>
-                        <input type="radio" name="question1" value="3" checked> とくになにも感じなかった
+                        <input type="radio" name="question1" value="3"> 言われてみれば違った
                     </div>
                     <div>
-                        <input type="radio" name="question1" value="2"> 少し使いづらかった
+                        <input type="radio" name="question1" value="2"> 言われても少し違和感を感じたくらい
                     </div>
                     <div>
-                        <input type="radio" name="question1" value="1"> とても使いづらかった
+                        <input type="radio" name="question1" value="1"> 全く気づかなかった
                     </div>
                 </div>
                 <div class="col-12 no-padding-col-12 small-question">
-                    (2) bのカテゴリは、カテゴリとして特別使いやすい・使いづらいと感じることはありましたか。
+                    (2) その違いはどのくらいあると感じましたか。
                 </div>
                 <div class="col-12">
                     <div>
-                        <input type="radio" name="question2" value="5"> とても使いやすかった
+                        <input type="radio" name="question2" value="5"> かなりの違いがあった
                     </div>
                     <div>
-                        <input type="radio" name="question2" value="4"> 少し使いやすかった
+                        <input type="radio" name="question2" value="4"> それなりに違いが出ていた
                     </div>
                     <div>
-                        <input type="radio" name="question2" value="3" checked> とくになにも感じなかった
+                        <input type="radio" name="question2" value="3"> 少し違いが見受けられた
                     </div>
                     <div>
-                        <input type="radio" name="question2" value="2"> 少し使いづらかった
+                        <input type="radio" name="question2" value="2"> ほとんど違いはなかった
                     </div>
                     <div>
-                        <input type="radio" name="question2" value="1"> とても使いづらかった
+                        <input type="radio" name="question2" value="1"> 全く違いが感じられなかった
                     </div>
                 </div>
                 <div class="col-12 no-padding-col-12 small-question">
-                    (3) カテゴリについて思ったことがあればお願いします。
+                    (3) AとBではなにが違うと思いますか。複数の回答があっても構いません。
                 </div>
                 <div class="col-12">
-                    <textarea style="width: 100%;" name="question3"></textarea>
+                    <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question3"></textarea>
                 </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (4) AとBで料理がより探しやすかったのはどちらですか。また、もし理由があればお答えください。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question4" value="5"> Aの方がかなり探しやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question4" value="4"> Aの方が少し探しやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question4" value="3"> どちらも同じだった
+                    </div>
+                    <div>
+                        <input type="radio" name="question4" value="2"> Bの方が少し探しやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question4" value="1"> Bの方がかなり探しやすかった
+                    </div>
+                </div>
+                <div class="col-12">
+                    <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question4text"></textarea>
+                </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (5) AとBでより操作がしやすかったのはどちらですか。また、もし理由があればお答えください。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question5" value="5"> Aの方がかなり操作しやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question5" value="4"> Aの方が少し操作しやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question5" value="3"> どちらも同じだった
+                    </div>
+                    <div>
+                        <input type="radio" name="question5" value="2"> Bの方が少し操作しやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question5" value="1"> Bの方がかなり操作しやすかった
+                    </div>
+                </div>
+                <div class="col-12">
+                    <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question5text"></textarea>
+                </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (6) AとBで使っていてより疲れやすかったのはどちらですか。また、もし理由があればお答えください。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question6" value="5"> Bの方がかなり疲れやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question6" value="4"> Bの方が少し疲れやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question6" value="3"> どちらも同じだった
+                    </div>
+                    <div>
+                        <input type="radio" name="question6" value="2"> Aの方が少し疲れやすかった
+                    </div>
+                    <div>
+                        <input type="radio" name="question6" value="1"> Aの方がかなり疲れやすかった
+                    </div>
+                </div>
+                <div class="col-12">
+                    <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question6text"></textarea>
+                </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (7) AとBでより効率がよかったと感じたのはどちらですか。また、もし理由があればお答えください。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question7" value="5"> Aの方がかなり効率よく探せた
+                    </div>
+                    <div>
+                        <input type="radio" name="question7" value="4"> Aの方が少し効率よく探せた
+                    </div>
+                    <div>
+                        <input type="radio" name="question7" value="3"> どちらも同じだった
+                    </div>
+                    <div>
+                        <input type="radio" name="question7" value="2"> Bの方が少し効率よく探せた
+                    </div>
+                    <div>
+                        <input type="radio" name="question7" value="1"> Bの方がかなり効率よく探せた
+                    </div>
+                </div>
+                <div class="col-12">
+                    <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question7text"></textarea>
+                </div>
+                <div class="col-12 no-padding-col-12 small-question">
+                    (8) 最後にシステムそのものの使いやすさを評価してください。
+                    システムが原因で実験がやりづらいと感じた場合は使いづらかった、実験がとてもスムーズにできたと感じた場合は使いやすかったとお答えください。
+                    また、システムに対して感じたことがあれば記述をお願いします。
+                </div>
+                <div class="col-12">
+                    <div>
+                        <input type="radio" name="question8" value="5"> Aの方がかなり効率よく探せた
+                    </div>
+                    <div>
+                        <input type="radio" name="question8" value="4"> Aの方が少し効率よく探せた
+                    </div>
+                    <div>
+                        <input type="radio" name="question8" value="3"> どちらも同じだった
+                    </div>
+                    <div>
+                        <input type="radio" name="question8" value="2"> Bの方が少し効率よく探せた
+                    </div>
+                    <div>
+                        <input type="radio" name="question8" value="1"> Bの方がかなり効率よく探せた
+                    </div>
+                </div>
+                <div class="col-12">
+                    <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question8text"></textarea>
+                </div>
+
 
                 <div class="form-group col-12">
                     <div class="row">
