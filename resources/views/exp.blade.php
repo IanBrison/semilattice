@@ -155,7 +155,7 @@
                 </div>
             </div>
             <div class="col-12">
-                <h3>レシピ（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">どうしても見つからない</a></h3>
+                <h3>料理（{{ $contents->total() }}）<br><a id="give_up" href="{{ action('ExperimentController@getResult', [$quiz_num, 0]) }}">どうしても見つからない</a></h3>
             </div>
             @foreach ($contents as $content)
                 <div class="col-12 col-sm-6 col-lg-4">
