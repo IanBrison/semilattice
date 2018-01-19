@@ -141,6 +141,9 @@
             </div>
             <div class="col-12 exp-group">
                 <h3>カテゴリ<br><a id="current_category">{{ $category->name }}</a></h3>
+                @if($category->id != 1)
+                    <a href="{{ action('ExperimentController@getExperiment', [$quiz_num, 1]) }}">カテゴリトップに戻る</a>
+                @endif
                 <div class="list-group">
                     <div class="row" style="margin: 0px;">
                 @foreach ($childs as $child)
@@ -189,7 +192,11 @@
                     return false;
                 }
             });
-
+            $('#give_up').click(function(){
+                if(!confirm('次の問題にいきますがよろしいですか？')) {
+                    return false;
+                }
+            });
         });
     </script>
 @endsection

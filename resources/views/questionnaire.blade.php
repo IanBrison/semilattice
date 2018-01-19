@@ -101,6 +101,9 @@
                     <textarea style="width: 100%;" placeholder="なければ空欄でも大丈夫です" name="question3"></textarea>
                 </div>
                 <div class="col-12 no-padding-col-12 small-question">
+                    ここから先はAとBとを比べたときのことが中心です。違いが全くわからなかった人は「どちらも同じだった」を選択してください。
+                </div>
+                <div class="col-12 no-padding-col-12 small-question">
                     (4) AとBで料理がより探しやすかったのはどちらですか。また、もし理由があればお答えください。
                 </div>
                 <div class="col-12">
