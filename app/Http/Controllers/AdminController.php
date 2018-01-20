@@ -31,6 +31,14 @@ class AdminController extends Controller
         return view('admin_results', ['subjects' => $subjects, 'quizzes' => $quizzes]);
     }
 
+    public function getSubjectResult($id)
+    {
+        $subject = Subject::find($id);
+        $quizzes = Quiz::orderBy('id')->get();
+        $questionnaire = $subject->questionnaire;
+        return view('admin_result', ['subject' => $subject, 'questionnaire' => $questionnaire, 'quizzes' => $quizzes]);
+    }
+
     public function getChilds($id)
     {
         $childs = Category::find($id)->childs;

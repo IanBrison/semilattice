@@ -34,26 +34,19 @@
 
 @section('body')
     <div class="container">
-        <h2>みんなの結果 <a href="{{ action('AdminController@getIndex') }}">adminトップへ戻る</a></h2>
+        <h2>{{ $subject->name }}さんの結果 <a href="{{ action('AdminController@getSubjectResults') }}">みんなの結果へ戻る</a></h2>
         <div>
-            @foreach($subjects as $subject)
-                <div class="subject-div row">
-                    <h3 class="subject-name col-12">名前:{{ $subject->name }} 学籍番号:{{ $subject->uni_id }}
-                    性別:
+            学籍番号:{{ $subject->uni_id }} 性別:
                         @if($subject->sex == 1)
                             男性
                         @else
                             女性
                         @endif
                          料理の得意度:{{ $subject->experience }}
-                         アンケート:(
-                        @if($subject->questionnaire != null)
-                            {{ $subject->questionnaire->question1 }}
-                        @endif
-                        )
-                        <a href="{{ action('AdminController@getSubjectResult', [$subject->id]) }}">詳しいページへ</a>
-                    </h3>
-                    @foreach ($quizzes as $index => $quiz)
+        </div>
+        <div>
+            @foreach ($quizzes as $index => $quiz)
+                <div class="subject-div row">
                         @if($subject->time_tracks()->where('quiz_id', $quiz->id)->exists())
                         <div class="col-12">
                             問{{ $index + 1 }}
@@ -75,9 +68,39 @@
                             <span class="time_track">時間:{{ $subject->time_tracks()->where('quiz_id', $quiz->id)->first()->time }}秒</span>
                         </div>
                         @endif
-                    @endforeach
                 </div>
             @endforeach
+                <div class="subject-div row">
+                    <div class="col-12">
+                        <div>
+                            アンケート
+                        </div>
+                        <div>
+                            AとBの違いはわかったか: {{ $questionnaire->question1 . ',' . $questionnaire->answer1 }}
+                        </div>
+                        <div>
+                            違いはどのくらいあるか: {{ $questionnaire->question2 . ',' . $questionnaire->answer2 }}
+                        </div>
+                        <div>
+                            何が違うと思うか: {{ $questionnaire->question3 }}
+                        </div>
+                        <div>
+                            AとBではどちらが探しやすいか: {{ $questionnaire->question4 . ',' . $questionnaire->answer4 . ', ' .$questionnaire->answer4text }}
+                        </div>
+                        <div>
+                            AとBではどちらが操作しやすいか: {{ $questionnaire->question5 . ',' . $questionnaire->answer5 . ', ' . $questionnaire->answer5text }}
+                        </div>
+                        <div>
+                            AとBではどちらが疲れやすいか: {{ $questionnaire->question6 . ',' . $questionnaire->answer6 . ', ' . $questionnaire->answer6text }}
+                        </div>
+                        <div>
+                            AとBではどちらが効率がよいか: {{ $questionnaire->question7 . ',' . $questionnaire->answer7 . ', ' . $questionnaire->answer7text }}
+                        </div>
+                        <div>
+                            システムの評価: {{ $questionnaire->question8 . ',' . $questionnaire->answer8 . ', ' . $questionnaire->answer8text }}
+                        </div>
+                    </div>
+                </div>
         </div>
     </div>
 @endsection
