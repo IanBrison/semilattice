@@ -55,7 +55,7 @@
                         <form action="{{ action('AdminController@postDeleteSubject') }}" method="POST">
                             {{ csrf_field() }}
                             <input type="hidden" name="subject_id" value="{{ $subject->id }}">
-                            <button action="submit" id="delete_button" class="btn btn-danger">削除</button>
+                            {{--<button action="submit" id="delete_button" class="btn btn-danger">削除</button>--}}
                         </form>
                     </h3>
                     @foreach ($quizzes as $index => $quiz)
