@@ -52,6 +52,11 @@
                         @endif
                         )
                         <a href="{{ action('AdminController@getSubjectResult', [$subject->id]) }}">詳しいページへ</a>
+                        <form action="{{ action('AdminController@postDeleteSubject') }}" method="POST">
+                            {{ csrf_field() }}
+                            <input type="hidden" name="subject_id" value="{{ $subject->id }}">
+                            <button action="submit" id="delete_button" class="btn btn-danger">削除</button>
+                        </form>
                     </h3>
                     @foreach ($quizzes as $index => $quiz)
                         @if($subject->time_tracks()->where('quiz_id', $quiz->id)->exists())
@@ -80,4 +85,16 @@
             @endforeach
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(function(){
+            $('#delete_button').click(function(){
+                if(!confirm('本当に消しますか？')) {
+                    return false;
+                }
+            });
+        });
+    </script>
 @endsection

@@ -99,4 +99,12 @@ class AdminController extends Controller
 
         return view('admin_categories', ['category_layers' => $category_layers]);
     }
+
+    public function postDeleteSubject(Request $request)
+    {
+        $subject = Subject::findOrFail($request->input('subject_id'));
+        $subject->delete();
+
+        return redirect(action('AdminController@getSubjectResults'));
+    }
 }

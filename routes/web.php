@@ -11,7 +11,7 @@
 |
 */
 
-Route::view('/', 'top')->name('login');
+Route::view('/', 'stop')->name('login');
 Route::get('/register', 'ExperimentController@getRegister');
 Route::post('/register', 'ExperimentController@postRegister');
 Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
@@ -25,6 +25,7 @@ Route::group(['prefix' => '/admin', 'middleware' => 'auth:admin'], function () {
     Route::post('/quiz/delete', 'AdminController@postDeleteQuizSet');
     Route::get('/category_vue', 'AdminController@getCategoryVue');
     Route::get('/category/{id}', 'AdminController@getChilds');
+    Route::post('/subject/delete', 'AdminController@postDeleteSubject');
 });
 Route::group(['prefix' => '/exp', 'middleware' => 'auth:subject'], function () {
     Route::get('/', 'ExperimentController@getIndex');
