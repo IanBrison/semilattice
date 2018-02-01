@@ -130,9 +130,9 @@
                     <div class="col-4">全体の平均回答時間</div><div class="col-8">{{ ($all_times->sum()) / count($quizzes) }}秒 ({{ $all_times->implode(', ') }})</div>
                     <div class="col-4">木構造の平均回答時間</div><div class="col-8">{{ ($tree_times->sum()) * 2 / count($quizzes) }}秒 ({{ $tree_times->implode(', ') }})</div>
                     <div class="col-4">セミラティス構造の平均回答時間</div><div class="col-8">{{ ($semi_times->sum()) * 2 / count($quizzes) }}秒 ({{ $semi_times->implode(', ') }})</div>
-                    <div class="col-4">全体のクリック数</div><div class="col-8">{{ $all_clicks->implode("\t") }}回</div>
-                    <div class="col-4">木構造のクリック数</div><div class="col-8">{{ $tree_clicks->implode("\t") }}回</div>
-                    <div class="col-4">セミラティス構造のクリック数</div><div class="col-8">{{ $semi_clicks->implode("\t") }}回</div>
+                    <div class="col-4">全体のクリック数</div><div class="col-8">{{ $all_clicks->sum() }}回 ({{ $all_clicks->implode(", ") }})</div>
+                    <div class="col-4">木構造のクリック数</div><div class="col-8">{{ $tree_clicks->sum() }}回 ({{ $tree_clicks->implode(", ") }})</div>
+                    <div class="col-4">セミラティス構造のクリック数</div><div class="col-8">{{ $semi_clicks->sum() }}回 ({{ $semi_clicks->implode(", ") }})</div>
                     <div class="col-4">アンケート評価（セミラティスの良さ）</div><div class="col-8">{{ $total_score }}ポイント</div>
                 </div>
 
