@@ -77,7 +77,7 @@
                             @php
                             $pre_id = 0;
                             @endphp
-                            @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $index => $track)
+                            @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
                                 @if ($track->category_id != null)
                                     @if ($track->category->is_semilattice_category)
                                         <span class="track_category_semilattice">{{ $track->category_id }}: {{ $track->category->name }}</span>
