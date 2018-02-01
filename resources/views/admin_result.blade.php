@@ -16,8 +16,8 @@
             color: black;
             border-bottom: solid 1px green;
         }
-        .track_category_bad {
-            color: black;
+        .track_category_semilattice {
+            color: purple;
             border-bottom: solid 1px red;
         }
         .track_content_good {
@@ -57,7 +57,11 @@
                             @endif
                             @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
                                 @if ($track->category_id != null)
-                                    <span class="track_category_good">{{ $track->category_id }}: {{ $track->category->name }}</span>
+                                    @if ($track->category->is_semilattice_category)
+                                        <span class="track_category_semilattice">{{ $track->category_id }}: {{ $track->category->name }}</span>
+                                    @else
+                                        <span class="track_category_good">{{ $track->category_id }}: {{ $track->category->name }}</span>
+                                    @endif
                                     ->
                                 @elseif ($track->content_id != null)
                                     <span class="track_content_good">{{ $track->content_id }}: {{ $track->content->name }}</span>

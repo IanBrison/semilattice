@@ -45,4 +45,13 @@ class Category extends Model
     {
         return "[" . $this->child_connections->pluck('child_category_id')->implode(', ') . "]";
     }
+
+    public function getIsSemilatticeCategoryAttribute()
+    {
+        $is_semilattice = false;
+        $child_connection = $this->child_connections()->first();
+        if ($child_connection != null && $child_connection->semilattice_name != null) $is_semilattice = true;
+
+        return $is_semilattice;
+    }
 }
