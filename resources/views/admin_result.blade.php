@@ -121,7 +121,7 @@
             @endforeach
             @php
             $total_score = $questionnaire->question4 + $questionnaire->question5 - $questionnaire->question6 + $questionnaire->question7 - 6;
-            if(fmod($subject->id + $index, 2) == 1) $total_score *= -1;
+            if(fmod($subject->id, 2) == 0) $total_score *= -1;
             @endphp
                 <div class="subject-div row">
                     <div class="col-12">
