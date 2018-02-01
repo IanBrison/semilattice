@@ -52,6 +52,7 @@
             $all_clicks = collect();
             $tree_clicks = collect();
             $semi_clicks = collect();
+            $all_medium_clicks = collect();
             $pre_id = 0;
             @endphp
             @foreach ($quizzes as $index => $quiz)
@@ -65,6 +66,7 @@
                                 $all_clicks->push(0);
                                 $tree_clicks->push(0);
                                 $semi_clicks->push(0);
+                                $all_medium_clicks->push(0);
                                 @endphp
                             @else
                                 (セ)
@@ -72,6 +74,7 @@
                                 $all_clicks->push(0);
                                 $tree_clicks->push(0);
                                 $semi_clicks->push(0);
+                                $all_medium_clicks->push(0);
                                 @endphp
                             @endif
                             @php
@@ -85,6 +88,9 @@
                                         if ($pre_id != $track->category_id) {
                                             $all_clicks[$all_clicks->count() - 1] = $all_clicks[$all_clicks->count() - 1] + 1;
                                             $semi_clicks[$semi_clicks->count() - 1] = $semi_clicks[$semi_clicks->count() - 1] + 1;
+                                            if (($parent_con = $track->category->parents()->first()->parent_connections()->first()) != null && $parent_con->parent_category_id == 1){
+                                                $all_medium_clicks[$all_medium_clicks->count() - 1] = $all_medium_clicks[$all_medium_clicks->count() - 1] + 1;
+                                            }
                                         }
                                         $pre_id = $track->category_id;
                                         @endphp
@@ -94,6 +100,9 @@
                                         if ($pre_id != $track->category_id) {
                                             $all_clicks[$all_clicks->count() - 1] = $all_clicks[$all_clicks->count() - 1] + 1;
                                             $tree_clicks[$tree_clicks->count() - 1] = $tree_clicks[$tree_clicks->count() - 1] + 1;
+                                            if (($parent_con = $track->category->parents()->first()->parent_connections()->first()) != null && $parent_con->parent_category_id == 1){
+                                                $all_medium_clicks[$all_medium_clicks->count() - 1] = $all_medium_clicks[$all_medium_clicks->count() - 1] + 1;
+                                            }
                                         }
                                         $pre_id = $track->category_id;
                                         @endphp
@@ -122,18 +131,29 @@
             @php
             $total_score = $questionnaire->question4 + $questionnaire->question5 - $questionnaire->question6 + $questionnaire->question7 - 6;
             if(fmod($subject->id, 2) == 0) $total_score *= -1;
+            $semi_num = fmod($subject->id + 1, 2);
+            $semi_per = collect();
+            $semi_medium_per = collect();
+            for($num = $semi_num; $num < count($quizzes); $num += 2) {
+                $semi_per->push(round($semi_clicks[$num] * 100 / $all_clicks[$num]));
+                if ($all_medium_clicks[$num] == 0) $all_medium_clicks[$num] = 1;
+                $semi_medium_per->push(round($semi_clicks[$num] * 100 / $all_medium_clicks[$num]));
+            }
             @endphp
                 <div class="subject-div row">
                     <div class="col-12">
                         <div>スタッツ</div>
                     </div>
-                    <div class="col-4">全体の平均回答時間</div><div class="col-8">{{ ($all_times->sum()) / count($quizzes) }}秒 ({{ $all_times->implode(', ') }})</div>
-                    <div class="col-4">木構造の平均回答時間</div><div class="col-8">{{ ($tree_times->sum()) * 2 / count($quizzes) }}秒 ({{ $tree_times->implode(', ') }})</div>
-                    <div class="col-4">セミラティス構造の平均回答時間</div><div class="col-8">{{ ($semi_times->sum()) * 2 / count($quizzes) }}秒 ({{ $semi_times->implode(', ') }})</div>
-                    <div class="col-4">全体のクリック数</div><div class="col-8">{{ $all_clicks->sum() }}回 ({{ $all_clicks->implode(", ") }})</div>
-                    <div class="col-4">木構造のクリック数</div><div class="col-8">{{ $tree_clicks->sum() }}回 ({{ $tree_clicks->implode(", ") }})</div>
-                    <div class="col-4">セミラティス構造のクリック数</div><div class="col-8">{{ $semi_clicks->sum() }}回 ({{ $semi_clicks->implode(", ") }})</div>
-                    <div class="col-4">アンケート評価（セミラティスの良さ）</div><div class="col-8">{{ $total_score }}ポイント</div>
+                    <div class="col-6">全体の平均回答時間</div><div class="col-6">{{ ($all_times->sum()) / count($quizzes) }}秒 ({{ $all_times->implode(', ') }})</div>
+                    <div class="col-6">木構造の平均回答時間</div><div class="col-6">{{ ($tree_times->sum()) * 2 / count($quizzes) }}秒 ({{ $tree_times->implode(', ') }})</div>
+                    <div class="col-6">セミラティス構造の平均回答時間</div><div class="col-6">{{ ($semi_times->sum()) * 2 / count($quizzes) }}秒 ({{ $semi_times->implode(', ') }})</div>
+                    <div class="col-6">全体のカテゴリのクリック数</div><div class="col-6">{{ $all_clicks->sum() }}回 ({{ $all_clicks->implode(", ") }})</div>
+                    <div class="col-6">ノーマルカテゴリののクリック数</div><div class="col-6">{{ $tree_clicks->sum() }}回 ({{ $tree_clicks->implode(", ") }})</div>
+                    <div class="col-6">中カテゴリのクリック数</div><div class="col-6">{{ $all_medium_clicks->sum() }}回 ({{ $all_medium_clicks->implode(", ") }})</div>
+                    <div class="col-6">セミラティスカテゴリのクリック数</div><div class="col-6">{{ $semi_clicks->sum() }}回 ({{ $semi_clicks->implode(", ") }})</div>
+                    <div class="col-6">セミラティスカテゴリのクリック率</div><div class="col-6">{{ $semi_per->implode('%, ') }}%</div>
+                    <div class="col-6">セミラティスカテゴリのクリック率（中カテゴリのみ）</div><div class="col-6">{{ $semi_medium_per->implode('%, ') }}%</div>
+                    <div class="col-6">アンケート評価（セミラティスの良さ）</div><div class="col-6">{{ $total_score }}ポイント</div>
                 </div>
 
                 <div class="subject-div row">
