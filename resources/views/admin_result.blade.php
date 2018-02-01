@@ -45,6 +45,15 @@
                          料理の得意度:{{ $subject->experience }}
         </div>
         <div>
+            @php
+            $all_times = collect();
+            $tree_times = collect();
+            $semi_times = collect();
+            $all_clicks = collect();
+            $tree_clicks = collect();
+            $semi_clicks = collect();
+            $pre_id = 0;
+            @endphp
             @foreach ($quizzes as $index => $quiz)
                 <div class="subject-div row">
                         @if($subject->time_tracks()->where('quiz_id', $quiz->id)->exists())
@@ -52,15 +61,42 @@
                             問{{ $index + 1 }}
                             @if (fmod($subject->id + $index, 2) == 0)
                                 (木)
+                                @php
+                                $all_clicks->push(0);
+                                $tree_clicks->push(0);
+                                $semi_clicks->push(0);
+                                @endphp
                             @else
                                 (セ)
+                                @php
+                                $all_clicks->push(0);
+                                $tree_clicks->push(0);
+                                $semi_clicks->push(0);
+                                @endphp
                             @endif
-                            @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $track)
+                            @php
+                            $pre_id = 0;
+                            @endphp
+                            @foreach($subject->tracks()->where('quiz_id', $quiz->id)->get() as $index => $track)
                                 @if ($track->category_id != null)
                                     @if ($track->category->is_semilattice_category)
                                         <span class="track_category_semilattice">{{ $track->category_id }}: {{ $track->category->name }}</span>
+                                        @php
+                                        if ($pre_id != $track->category_id) {
+                                            $all_clicks[$all_clicks->count() - 1] = $all_clicks[$all_clicks->count() - 1] + 1;
+                                            $semi_clicks[$semi_clicks->count() - 1] = $semi_clicks[$semi_clicks->count() - 1] + 1;
+                                        }
+                                        $pre_id = $track->category_id;
+                                        @endphp
                                     @else
                                         <span class="track_category_good">{{ $track->category_id }}: {{ $track->category->name }}</span>
+                                        @php
+                                        if ($pre_id != $track->category_id) {
+                                            $all_clicks[$all_clicks->count() - 1] = $all_clicks[$all_clicks->count() - 1] + 1;
+                                            $tree_clicks[$tree_clicks->count() - 1] = $tree_clicks[$tree_clicks->count() - 1] + 1;
+                                        }
+                                        $pre_id = $track->category_id;
+                                        @endphp
                                     @endif
                                     ->
                                 @elseif ($track->content_id != null)
@@ -69,11 +105,37 @@
                                     <span class="track_content_bad">諦めた</span>
                                 @endif
                             @endforeach
-                            <span class="time_track">時間:{{ $subject->time_tracks()->where('quiz_id', $quiz->id)->first()->time }}秒</span>
+                            <span class="time_track">時間:{{ $time = $subject->time_tracks()->where('quiz_id', $quiz->id)->first()->time }}秒</span>
+                            @php
+                            if(fmod($subject->id + $index, 2) == 0) {
+                                $all_times->push($time);
+                                $tree_times->push($time);
+                            } else {
+                                $all_times->push($time);
+                                $semi_times->push($time);
+                            }
+                            @endphp
                         </div>
                         @endif
                 </div>
             @endforeach
+            @php
+            $total_score = $questionnaire->question4 + $questionnaire->question5 - $questionnaire->question6 + $questionnaire->question7 - 6;
+            if(fmod($subject->id + $index, 2) == 1) $total_score *= -1;
+            @endphp
+                <div class="subject-div row">
+                    <div class="col-12">
+                        <div>スタッツ</div>
+                    </div>
+                    <div class="col-4">全体の平均回答時間</div><div class="col-8">{{ ($all_times->sum()) / count($quizzes) }}秒 ({{ $all_times->implode(', ') }})</div>
+                    <div class="col-4">木構造の平均回答時間</div><div class="col-8">{{ ($tree_times->sum()) * 2 / count($quizzes) }}秒 ({{ $tree_times->implode(', ') }})</div>
+                    <div class="col-4">セミラティス構造の平均回答時間</div><div class="col-8">{{ ($semi_times->sum()) * 2 / count($quizzes) }}秒 ({{ $semi_times->implode(', ') }})</div>
+                    <div class="col-4">全体のクリック数</div><div class="col-8">{{ $all_clicks->implode("\t") }}回</div>
+                    <div class="col-4">木構造のクリック数</div><div class="col-8">{{ $tree_clicks->implode("\t") }}回</div>
+                    <div class="col-4">セミラティス構造のクリック数</div><div class="col-8">{{ $semi_clicks->implode("\t") }}回</div>
+                    <div class="col-4">アンケート評価（セミラティスの良さ）</div><div class="col-8">{{ $total_score }}ポイント</div>
+                </div>
+
                 <div class="subject-div row">
                     <div class="col-12">
                         <div>
