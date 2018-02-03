@@ -167,7 +167,8 @@
                     . $tree_times->implode(', ') . ', ' . $semi_times->sum() * 2 / count($quizzes) . ', ' . $semi_times->implode(', ') . ', ' . $all_clicks->sum() . ', ' . $all_clicks->implode(", ") . ', '
                     . $tree_clicks->sum() . ', ' . $tree_clicks->implode(", ") . ', ' . $all_medium_clicks->sum() . ', ' . $all_medium_clicks->implode(", ") . ', ' . $semi_clicks->sum() . ', '
                     . $semi_clicks->implode(", ") . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_all_clicks) . ', ' . $semi_per->implode(', ') . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_medium_clicks) . ', '
-                    . $semi_medium_per->implode(', ') . ', ' . $total_score }}</div>
+                    . $semi_medium_per->implode(', ') . ', ' . $total_score . ', ' . $questionnaire->question1 . ', ' . $questionnaire->question2 . ', ' . $questionnaire->question3 . ', ' . $questionnaire->question4
+                    . ', ' . $questionnaire->question5 . ', ' . $questionnaire->question6 . ', ' . $questionnaire->question7 . ', ' . $questionnaire->question8 }}</div>
                 </div>
 
                 <div class="subject-div row">
