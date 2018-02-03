@@ -133,27 +133,41 @@
             if(fmod($subject->id, 2) == 0) $total_score *= -1;
             $semi_num = fmod($subject->id + 1, 2);
             $semi_per = collect();
+            $semi_per_all = 0;
             $semi_medium_per = collect();
+            $semi_medium_per_all = 0;
+            $semi_per_all_clicks = 0;
+            $semi_per_medium_clicks = 0;
+            $semi_per_semi_clicks = 0;
             for($num = $semi_num; $num < count($quizzes); $num += 2) {
+                $semi_per_all_clicks += $all_clicks[$num];
+                $semi_per_medium_clicks += $all_medium_clicks[$num];
+                $semi_per_semi_clicks += $semi_clicks[$num];
                 $semi_per->push(round($semi_clicks[$num] * 100 / $all_clicks[$num]));
                 if ($all_medium_clicks[$num] == 0) $all_medium_clicks[$num] = 1;
                 $semi_medium_per->push(round($semi_clicks[$num] * 100 / $all_medium_clicks[$num]));
             }
+            if ($semi_per_medium_clicks == 0) $semi_per_medium_clicks = 1;
             @endphp
                 <div class="subject-div row">
                     <div class="col-12">
                         <div>スタッツ</div>
                     </div>
-                    <div class="col-6">全体の平均回答時間</div><div class="col-6">{{ ($all_times->sum()) / count($quizzes) }}秒 ({{ $all_times->implode(', ') }})</div>
-                    <div class="col-6">木構造の平均回答時間</div><div class="col-6">{{ ($tree_times->sum()) * 2 / count($quizzes) }}秒 ({{ $tree_times->implode(', ') }})</div>
-                    <div class="col-6">セミラティス構造の平均回答時間</div><div class="col-6">{{ ($semi_times->sum()) * 2 / count($quizzes) }}秒 ({{ $semi_times->implode(', ') }})</div>
+                    <div class="col-6">全体の平均回答時間</div><div class="col-6">{{ $all_times->sum() / count($quizzes) }}秒 ({{ $all_times->implode(', ') }})</div>
+                    <div class="col-6">木構造の平均回答時間</div><div class="col-6">{{ $tree_times->sum() * 2 / count($quizzes) }}秒 ({{ $tree_times->implode(', ') }})</div>
+                    <div class="col-6">セミラティス構造の平均回答時間</div><div class="col-6">{{ $semi_times->sum() * 2 / count($quizzes) }}秒 ({{ $semi_times->implode(', ') }})</div>
                     <div class="col-6">全体のカテゴリのクリック数</div><div class="col-6">{{ $all_clicks->sum() }}回 ({{ $all_clicks->implode(", ") }})</div>
                     <div class="col-6">ノーマルカテゴリののクリック数</div><div class="col-6">{{ $tree_clicks->sum() }}回 ({{ $tree_clicks->implode(", ") }})</div>
                     <div class="col-6">中カテゴリのクリック数</div><div class="col-6">{{ $all_medium_clicks->sum() }}回 ({{ $all_medium_clicks->implode(", ") }})</div>
                     <div class="col-6">セミラティスカテゴリのクリック数</div><div class="col-6">{{ $semi_clicks->sum() }}回 ({{ $semi_clicks->implode(", ") }})</div>
-                    <div class="col-6">セミラティスカテゴリのクリック率</div><div class="col-6">{{ $semi_per->implode('%, ') }}%</div>
-                    <div class="col-6">セミラティスカテゴリのクリック率（中カテゴリのみ）</div><div class="col-6">{{ $semi_medium_per->implode('%, ') }}%</div>
+                    <div class="col-6">セミラティスカテゴリのクリック率</div><div class="col-6">{{ round($semi_per_semi_clicks * 100 / $semi_per_all_clicks) }}% ({{ $semi_per->implode('%, ') }}%)</div>
+                    <div class="col-6">セミラティスカテゴリのクリック率（中カテゴリのみ）</div><div class="col-6">{{ round($semi_per_semi_clicks * 100 / $semi_per_medium_clicks) }}% ({{ $semi_medium_per->implode('%, ') }}%)</div>
                     <div class="col-6">アンケート評価（セミラティスの良さ）</div><div class="col-6">{{ $total_score }}ポイント</div>
+                    <div class="col-6">CSV用</div><div class="col-6">{{ $all_times->sum() / count($quizzes) . ', ' . $all_times->implode(', ') . ', ' . $tree_times->sum() * 2 / count($quizzes) . ', '
+                    . $tree_times->implode(', ') . ', ' . $semi_times->sum() * 2 / count($quizzes) . ', ' . $semi_times->implode(', ') . ', ' . $all_clicks->sum() . ', ' . $all_clicks->implode(", ") . ', '
+                    . $tree_clicks->sum() . ', ' . $tree_clicks->implode(", ") . ', ' . $all_medium_clicks->sum() . ', ' . $all_medium_clicks->implode(", ") . ', ' . $semi_clicks->sum() . ', '
+                    . $semi_clicks->implode(", ") . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_all_clicks) . ', ' . $semi_per->implode('%, ') . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_medium_clicks) . ', '
+                    . $semi_medium_per->implode('%, ') . ', ' . $total_score }}</div>
                 </div>
 
                 <div class="subject-div row">
