@@ -166,8 +166,8 @@
                     <div class="col-6">CSV用</div><div class="col-6">{{ $all_times->sum() / count($quizzes) . ', ' . $all_times->implode(', ') . ', ' . $tree_times->sum() * 2 / count($quizzes) . ', '
                     . $tree_times->implode(', ') . ', ' . $semi_times->sum() * 2 / count($quizzes) . ', ' . $semi_times->implode(', ') . ', ' . $all_clicks->sum() . ', ' . $all_clicks->implode(", ") . ', '
                     . $tree_clicks->sum() . ', ' . $tree_clicks->implode(", ") . ', ' . $all_medium_clicks->sum() . ', ' . $all_medium_clicks->implode(", ") . ', ' . $semi_clicks->sum() . ', '
-                    . $semi_clicks->implode(", ") . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_all_clicks) . ', ' . $semi_per->implode('%, ') . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_medium_clicks) . ', '
-                    . $semi_medium_per->implode('%, ') . ', ' . $total_score }}</div>
+                    . $semi_clicks->implode(", ") . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_all_clicks) . ', ' . $semi_per->implode(', ') . ', ' . round($semi_per_semi_clicks * 100 / $semi_per_medium_clicks) . ', '
+                    . $semi_medium_per->implode(', ') . ', ' . $total_score }}</div>
                 </div>
 
                 <div class="subject-div row">
